@@ -3,27 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blackjack Game</title>
+    <title>Blackjack Terminal</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="game">
-        <h1>Blackjack Game</h1>
-        <div id="dealer-hand" class="hand">
-            <strong>Dealer:</strong> <!-- Added "Dealer" label -->
+    <div class="terminal">
+        <div class="terminal-header">
+            <strong>Blackjack Terminal</strong>
         </div>
-        <div id="player-hand" class="hand">
-            <strong>User:</strong> <!-- Added "User" label -->
+        <div class="terminal-content">
+            <div id="player-hand" class="hand"></div>
+            <div id="dealer-hand" class="hand"></div>
         </div>
-        <div id="game-controls">
-            <button id="deal-button">Deal</button>
-            <button id="hit-button">Hit</button>
-            <button id="stand-button">Stand</button>
-            <button id="replay-button">Replay</button>
+        <div class="terminal-controls">
+            <button id="deal-button" class="btn">Deal</button>
+            <button id="hit-button" class="btn">Hit</button>
+            <button id="stand-button" class="btn" disabled>Stand</button>
+            <button id="replay-button" class="btn">Replay</button>
         </div>
-        <div id="scoreboard">
-            <span id="player-score">Wins: 0</span>
-            <span id="dealer-score">Losses: 0</span>
+        <div class="terminal-footer">
+            <span id="player-score"><strong>Wins:</strong> 0</span>
+            <span id="dealer-score"><strong>Losses:</strong> 0</span>
         </div>
     </div>
     <script src="script.js"></script>

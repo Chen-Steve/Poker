@@ -1,54 +1,93 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Courier New', monospace;
+    background-color: #000;
+    color: #00FF00;
     text-align: center;
-    background-color: #f3f3f3;
+    padding: 20px;
     margin: 0;
-    padding: 0;
 }
 
-#game {
-    width: 80%; /* Increase the width for a larger game area */
-    margin: 20px auto; /* Adjust margins for better centering */
-    padding: 20px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); /* Add a subtle box shadow */
+.terminal {
+    background-color: #000;
+    color: #00FF00;
+    border: 2px solid #00FF00;
+    border-radius: 5px;
+    padding: 10px;
+    width: 320px;
+    margin: 0 auto;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+}
+
+.terminal-header {
+    background-color: #222;
+    color: #00FF00;
+    text-align: center;
+    padding: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.terminal-content {
+    padding: 10px;
+    text-align: left;
+    background-color: #000;
+    border-radius: 3px;
+    margin-bottom: 10px;
 }
 
 .hand {
-    margin: 10px 0; /* Adjust vertical margin */
-    padding: 10px;
-    background-color: #e4e4e4;
-    border-radius: 5px;
+    margin: 5px 0;
+    padding: 5px;
+    background-color: #000;
+    border-radius: 3px;
+    color: #00FF00;
 }
 
-#game-controls button {
-    margin: 5px;
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
+.terminal-controls {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.btn {
+    background-color: #00FF00;
+    color: #000;
     border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 18px; /* Increase font size for better readability */
-}
-
-#game-controls button:hover {
-    background-color: #0056b3;
-}
-
-#scoreboard {
-    margin-top: 20px;
-}
-
-/* Style for the score display */
-#scores {
-    font-size: 24px; /* Increase font size for visibility */
-}
-
-/* Style for individual player scores */
-#player-score, #dealer-score {
-    font-weight: bold;
+    border-radius: 3px;
+    padding: 5px 10px;
     margin: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
 }
+
+.btn:disabled {
+    background-color: #444;
+    cursor: not-allowed;
+}
+
+.btn:hover {
+    background-color: #009900;
+}
+
+.terminal-footer {
+    margin-top: 10px;
+}
+
+span {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+strong {
+    color: #00FF00;
+}
+
+#hit-button {
+    background-color: gray;
+    /* Add other button styles here */
+}
+
+#hit-button:enabled {
+    background-color: #4CAF50; /* Green background color */
+    cursor: pointer;
+}
+

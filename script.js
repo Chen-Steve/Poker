@@ -1,4 +1,3 @@
-
 const cardSymbols = {
     'hearts': ['2♥', '3♥', '4♥', '5♥', '6♥', '7♥', '8♥', '9♥', '10♥', 'J♥', 'Q♥', 'K♥', 'A♥'],
     'diamonds': ['2♦', '3♦', '4♦', '5♦', '6♦', '7♦', '8♦', '9♦', '10♦', 'J♦', 'Q♦', 'K♦', 'A♦'],
@@ -6,17 +5,16 @@ const cardSymbols = {
     'spades': ['2♠', '3♠', '4♠', '5♠', '6♠', '7♠', '8♠', '9♠', '10♠', 'J♠', 'Q♠', 'K♠', 'A♠'],
 };
 
-
 let playerHand = [];
 let dealerHand = [];
 let playerWins = 0;
 let dealerWins = 0;
+let dealButtonClicked = false;
 
 document.getElementById('deal-button').addEventListener('click', deal);
 document.getElementById('hit-button').addEventListener('click', playerHit);
 document.getElementById('stand-button').addEventListener('click', dealerPlay);
 document.getElementById('replay-button').addEventListener('click', resetGame);
-
 
 function getCardSymbol(card) {
     const rank = card.rank;
@@ -45,8 +43,6 @@ function displayHands() {
     displayCard('dealer-hand', getCardSymbol(dealerHand[0]));
 }
 
-
-
 // Define a deck of cards
 let deck = [];
 
@@ -60,8 +56,8 @@ function initializeDeck() {
 }
 
 function deal() {
-    // Check if the deck is empty
-    if (deck.length === 0) {
+    // Check if the deck is empty or if "Deal" button has already been clicked
+    if (deck.length === 0 || dealButtonClicked) {
         // Reshuffle the deck if needed (you can implement shuffleDeck() function)
         initializeDeck();
         // Add additional logic here if you want to reshuffle in the middle of the game.
@@ -79,8 +75,15 @@ function deal() {
 
     // Update the UI to display the cards
     displayHands();
-}
 
+    // Disable the "Deal" button and enable "Hit" and "Stand"
+    document.getElementById('deal-button').disabled = true;
+    document.getElementById('hit-button').disabled = false;
+    document.getElementById('stand-button').disabled = false;
+
+    // Set dealButtonClicked to true
+    dealButtonClicked = true;
+}
 
 function playerHit() {
     // Add a card to the player's hand
@@ -96,7 +99,6 @@ function playerHit() {
         resetGame();
     }
 }
-
 
 function getRandomCard() {
     // Check if the deck is empty
@@ -115,7 +117,6 @@ function getRandomCard() {
 
     return card;
 }
-
 
 function dealerPlay() {
     while (getHandValue(dealerHand) < 17) {
@@ -166,6 +167,9 @@ function resetGame() {
     document.getElementById('deal-button').disabled = false;
     document.getElementById('hit-button').disabled = true;
     document.getElementById('stand-button').disabled = true;
+
+    // Reset dealButtonClicked to false
+    dealButtonClicked = false;
 
     // Update the UI to display scores
     updateScores();
