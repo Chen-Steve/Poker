@@ -1,0 +1,54 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f3f3f3;
+    margin: 0;
+    padding: 0;
+}
+
+#game {
+    width: 80%; /* Increase the width for a larger game area */
+    margin: 20px auto; /* Adjust margins for better centering */
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); /* Add a subtle box shadow */
+}
+
+.hand {
+    margin: 10px 0; /* Adjust vertical margin */
+    padding: 10px;
+    background-color: #e4e4e4;
+    border-radius: 5px;
+}
+
+#game-controls button {
+    margin: 5px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px; /* Increase font size for better readability */
+}
+
+#game-controls button:hover {
+    background-color: #0056b3;
+}
+
+#scoreboard {
+    margin-top: 20px;
+}
+
+/* Style for the score display */
+#scores {
+    font-size: 24px; /* Increase font size for visibility */
+}
+
+/* Style for individual player scores */
+#player-score, #dealer-score {
+    font-weight: bold;
+    margin: 5px;
+}
