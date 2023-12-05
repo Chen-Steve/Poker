@@ -246,35 +246,30 @@ function BJhit() {
 document.querySelector('#deal').addEventListener('click', BJdeal);
 
 function BJdeal() {
-    if (You['score'] === 0) {
-        alert('Please Hit Some Cards First!');
-    } else if (Dealer['score'] === 0) {
-        alert('Please Press Stand Key Before Deal...');
-    } else {
-        let yourimg = document.querySelector('#your-box').querySelectorAll('img');
-        let dealerimg = document.querySelector('#dealer-box').querySelectorAll('img');
+    // Check if the player's turn is over (either busted or the dealer has played)
+    if (You['score'] > 21 || Dealer['score'] > 0) {
+        // Clear the cards from both player and dealer
+        document.getElementById('your-box').innerHTML = '<h2>Your Hand</h2><div id="yourscore" class="score">0</div>';
+        document.getElementById('dealer-box').innerHTML = '<h2>Dealer\'s Hand</h2><div id="dealerscore" class="score">0</div>';
 
-        for (let i = 0; i < yourimg.length; i++) {
-            yourimg[i].remove();
-        }
-        for (let i = 0; i < dealerimg.length; i++) {
-            dealerimg[i].remove();
-        }
-
-        You['cards'] = [];
-        Dealer['cards'] = [];
-
+        // Reset the scores
         You['score'] = 0;
-        document.querySelector(You['scoreSpan']).textContent = You['score'];
-        document.querySelector(You['scoreSpan']).style.color = 'whitesmoke';
         Dealer['score'] = 0;
-        document.querySelector(Dealer['scoreSpan']).textContent = Dealer['score'];
-        document.querySelector(Dealer['scoreSpan']).style.color = 'whitesmoke';
 
+        // Reset the deck if you're using a finite deck
+        BJgame['cards'] = [...BJgame['originalDeck']]; // Assuming you have an original deck to copy from
+
+        // Reset the command/message text
         document.querySelector('#command').textContent = "Let's Play";
         document.querySelector('#command').style.color = 'black';
+
+        // Any other reset logic you might have
+    } else {
+        // Player hasn't busted and dealer hasn't played yet
+        alert('Please Press Stand Key Before Deal...');
     }
 }
+
 
 // Dealer's Logic (2nd player) OR Stand button
 document.querySelector('#stand').addEventListener('click', BJstand);
