@@ -58,10 +58,14 @@ function placeBet(amount) {
     if (BJgame.playerFunds >= amount) {
         BJgame.currentBet = amount;
         BJgame.updateFunds(-amount); // Deduct the bet from funds
+        // Disable betting controls
+        document.getElementById('betAmount').disabled = true;
+        document.getElementById('placeBet').disabled = true;
     } else {
         alert("Insufficient funds!");
     }
 }
+
 
 function payoutWin() {
     let winnings = BJgame.currentBet * 2; // Example payout rate
@@ -365,6 +369,12 @@ function BJhit() {
 
 document.querySelector('#deal').addEventListener('click', BJdeal);
 
+function resetBettingUI() {
+    document.getElementById('betAmount').value = ''; // Reset bet amount input
+    document.getElementById('betAmount').disabled = false; // Re-enable bet amount input
+    document.getElementById('placeBet').disabled = false; // Re-enable "Place Bet" button
+}
+
 function BJdeal() {
     // Check if the player's turn is over (either busted or the dealer has played)
     if (You['score'] > 21 || Dealer['score'] > 0) {
@@ -382,17 +392,14 @@ function BJdeal() {
         // Reset command/message text
         document.querySelector('#command').textContent = "Let's Play";
         document.querySelector('#command').style.color = 'black';
+
+        // Reset betting UI for the next game
+        resetBettingUI();
     } else {
         // Player hasn't busted and dealer hasn't played yet
         alert('Please Press Stand Key Before Deal...');
     }
-
-    drawCard(You);
-    drawCard(You);
-    drawCard(Dealer);
-    drawCard(Dealer, true); // Second dealer card is face-down
 }
-
 
 // Dealer's Logic (2nd player) OR Stand button
 document.querySelector('#stand').addEventListener('click', BJstand);
