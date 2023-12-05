@@ -196,10 +196,10 @@ function findwinner(){
 }
 
 // Results
-const winSound = new Audio('./static/sounds/cash.mp3'); 
-const cheers = new Audio('./static/sounds/cheer.wav');
-const loseSound = new Audio('./static/sounds/aww.mp3');
-const drawSound = new Audio('./static/sounds/ohh.mp3');
+const winSound = new Audio('cha-ching.mp3'); 
+const cheers = new Audio('cheer.mp3');
+const loseSound = new Audio('aww.mp3');
+const drawSound = new Audio('aww.mp3');
 
 function showresults(winner){
     if(winner == You){
