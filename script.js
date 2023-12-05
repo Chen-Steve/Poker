@@ -131,26 +131,27 @@ function BJhit() {
     }
 }
 
-function updateScore(currentCard, activeplayer) {
-    // Extract the card rank from the card symbol
-    const rank = currentCard.slice(0, -1);
+function updateScore(currentCard, activePlayer) {
+    const rank = currentCard.slice(0, -1); // Extract the rank from the card symbol
 
-    // Check if the rank is an Ace
     if (rank === 'A') {
-        // Determine if using 11 points would bust the player
-        if (activeplayer['score'] + 11 <= 21) {
-            activeplayer['score'] += 11;
+        // If adding 11 keeps the score under or equal to 21, use 11, otherwise use 1
+        if (activePlayer['score'] + 11 <= 21) {
+            activePlayer['score'] += 11;
         } else {
-            activeplayer['score'] += 1;
+            activePlayer['score'] += 1;
         }
-    } else if (rank === 'K' || rank === 'Q' || rank === 'J') {
-        // Face cards are worth 10 points
-        activeplayer['score'] += 10;
+    } else if (['K', 'Q', 'J'].includes(rank)) {
+        // Face cards (King, Queen, Jack) are worth 10
+        activePlayer['score'] += 10;
     } else {
         // Other cards are worth their face value
-        activeplayer['score'] += parseInt(rank);
+        activePlayer['score'] += parseInt(rank);
     }
+
+    showScore(activePlayer);
 }
+
 
 function showScore(activeplayer){
     if(activeplayer['score']>21){
