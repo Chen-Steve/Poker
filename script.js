@@ -55,23 +55,49 @@ const Dealer = BJgame['dealer'];
 
 const tink = new Audio('./static/sounds/tink.wav');
 
-function drawCard(activeplayer) {
-    const randomNumber = Math.floor(Math.random() * (BJgame['cards'].length));
+function drawCard(activePlayer) {
+    const randomNumber = Math.floor(Math.random() * BJgame['cards'].length);
     const currentCard = BJgame['cards'].splice(randomNumber, 1)[0]; // Extract the card symbol
 
-    const cardSymbol = getCardSymbol(currentCard);
+    const cardSuit = currentCard.slice(-1); // Get the last character for suit
+    const cardNumber = currentCard.slice(0, -1); // Get all except the last character for number
 
-    const cardText = document.createElement('div');
-    cardText.textContent = cardSymbol;
-    document.querySelector(activeplayer['div']).appendChild(cardText);
+    let suitName;
+    switch(cardSuit) {
+        case 'C': suitName = 'clubs'; break;
+        case 'D': suitName = 'diamonds'; break;
+        case 'H': suitName = 'hearts'; break;
+        case 'S': suitName = 'spades'; break;
+        default: suitName = ''; break;
+    }
+
+    let imageName = `${suitName}_`;
+    if (['J', 'Q', 'K', 'A'].includes(cardNumber)) {
+        switch(cardNumber) {
+            case 'J': imageName += 'jack'; break;
+            case 'Q': imageName += 'queen'; break;
+            case 'K': imageName += 'king'; break;
+            case 'A': imageName += 'ace'; break;
+        }
+    } else {
+        imageName += cardNumber;
+    }
+    imageName += '.png';
+
+    const cardImage = document.createElement('img');
+    cardImage.src = `svg_playing_cards/fronts/pngVersion/${imageName}`; // Set the source to the card image
+    cardImage.classList.add('card-image'); // Add a class for styling
+    document.querySelector(activePlayer['div']).appendChild(cardImage); // Append the card image to the player's div
+
     hitsound.play();
 
     // Update Score
-    updateScore(currentCard, activeplayer);
+    updateScore(currentCard, activePlayer);
 
     // Show Score
-    showScore(activeplayer);
+    showScore(activePlayer);
 }
+
 
 function getCardSymbol(card) {
     for (const suit of Object.keys(cardSymbols)) {
