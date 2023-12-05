@@ -3,8 +3,7 @@ body {
     background-color: #000;
     color: #00FF00;
     text-align: center;
-    padding: 20px;
-    margin: 0;
+    padding: 0px;
 }
 
 .terminal {
@@ -26,19 +25,18 @@ body {
     border-radius: 5px;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-    display: flex; /* Enables Flexbox */
-    align-items: center; /* Centers items vertically */
-    justify-content: center; /* Centers items horizontally */
+    display: flex; 
+    align-items: center;
+    justify-content: center; 
 }
 
 .header-icon {
-    margin-right: 10px; /* Space between the logo and the title */
-    height: 50px; /* Example height, adjust as needed */
-    width: auto; /* Maintain aspect ratio of the SVG */
+    margin-right: 10px; 
+    height: 50px; 
+    width: auto; 
 }
 
 .terminal-content {
-    padding: 10px;
     text-align: left;
     background-color: #000;
     border-radius: 3px;
@@ -93,11 +91,10 @@ strong {
 
 #hit-button {
     background-color: gray;
-    /* Add other button styles here */
 }
 
 #hit-button:enabled {
-    background-color: #4CAF50; /* Green background color */
+    background-color: #4CAF50; 
     cursor: pointer;
 }
 
