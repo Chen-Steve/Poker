@@ -1,6 +1,6 @@
 let BJgame = {
-    'you': {'scoreSpan': '#yourscore' , 'div': '#your-box', 'score': 0},
-    'dealer': {'scoreSpan': '#dealerscore' , 'div': '#dealer-box', 'score': 0},
+    'you': {'scoreSpan': '#yourscore', 'div': '#your-box', 'score': 0, 'cards': []},
+    'dealer': {'scoreSpan': '#dealerscore', 'div': '#dealer-box', 'score': 0, 'cards': []},
     
     'cards': ['2C','3C','4C','5C','6C','7C','8C','9C','10C','KC','QC','JC','AC','2D','3D','4D','5D','6D','7D','8D','9D','10D','KD','QD','JD','AD','2H','3H','4H','5H','6H','7H','8H','9H','10H','KH','QH','JH','AH','2S','3S','4S','5S','6S','7S','8S','9S','10S','KS','QS','JS','AS'],
     
@@ -61,6 +61,8 @@ function drawCard(activePlayer) {
 
     const cardSuit = currentCard.slice(-1); // Get the last character for suit
     const cardNumber = currentCard.slice(0, -1); // Get all except the last character for number
+    
+    activePlayer['cards'].push(currentCard); // Add the drawn card to the player's cards array
 
     let suitName;
     switch(cardSuit) {
@@ -248,22 +250,20 @@ document.querySelector('#deal').addEventListener('click', BJdeal);
 function BJdeal() {
     // Check if the player's turn is over (either busted or the dealer has played)
     if (You['score'] > 21 || Dealer['score'] > 0) {
-        // Clear the cards from both player and dealer
+        // Clear the cards and reset scores
         document.getElementById('your-box').innerHTML = '<h2>Your Hand</h2><div id="yourscore" class="score">0</div>';
         document.getElementById('dealer-box').innerHTML = '<h2>Dealer\'s Hand</h2><div id="dealerscore" class="score">0</div>';
-
-        // Reset the scores
         You['score'] = 0;
         Dealer['score'] = 0;
+        You['cards'] = []; // Clear the player's cards array
+        Dealer['cards'] = []; // Clear the dealer's cards array
 
         // Reset the deck if you're using a finite deck
         BJgame['cards'] = [...BJgame['originalDeck']]; // Assuming you have an original deck to copy from
 
-        // Reset the command/message text
+        // Reset command/message text
         document.querySelector('#command').textContent = "Let's Play";
         document.querySelector('#command').style.color = 'black';
-
-        // Any other reset logic you might have
     } else {
         // Player hasn't busted and dealer hasn't played yet
         alert('Please Press Stand Key Before Deal...');
@@ -275,6 +275,11 @@ function BJdeal() {
 document.querySelector('#stand').addEventListener('click', BJstand);
 
 function BJstand() {
+    if (You['cards'].length < 2) {
+        alert("You need to have at least two cards to stand.");
+        return; // Exit the function if the player has less than two cards
+    }
+
     if (You['score'] <= 21) {
         while (Dealer['score'] < 16) {
             drawCard(Dealer);

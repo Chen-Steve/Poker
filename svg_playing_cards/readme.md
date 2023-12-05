@@ -1,3 +1,5 @@
+Fully functioning Casion rule Blackjack game
+
 Setup
 - Clone/Download the Repository: Get a copy of the project files onto your local machine.
 - Open index.html: Launch the game by opening the index.html file in any modern web browser.
@@ -10,5 +12,5 @@ How to Play
 - The game follows standard Blackjack rules:
 
 1. Aim to get as close to 21 as possible without going over.
-Face cards (King, Queen, Jack) are worth 10. Aces can be worth 1 or 11.
-If you exceed 21, you 'bust' and automatically lose the round.
+2. Face cards (King, Queen, Jack) are worth 10. Aces can be worth 1 or 11.
+3. If you exceed 21, you 'bust' and automatically lose the round.
