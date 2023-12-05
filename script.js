@@ -232,8 +232,13 @@ document.querySelector('#hit').addEventListener('click', BJhit);
 
 function BJhit() {
     if (Dealer['score'] === 0) {
-        if (You['score'] <= 21) {
+        if (You['score'] < 21) {
             drawCard(You);
+            if (You['score'] > 21) {
+                // Player busts
+                showresults(findwinner()); // Determine the winner
+                scoreboard(); // Update the scoreboard
+            }
         }
     }
 }
@@ -275,18 +280,18 @@ function BJdeal() {
 document.querySelector('#stand').addEventListener('click', BJstand);
 
 function BJstand() {
-    if (You['score'] === 0) {
-        alert('Please Hit Some Cards First!');
-    } else {
+    if (You['score'] <= 21) {
         while (Dealer['score'] < 16) {
             drawCard(Dealer);
         }
-        setTimeout(function () {
-            showresults(findwinner());
-            scoreboard();
-        }, 800);
     }
+    // Finalize the game
+    setTimeout(function () {
+        showresults(findwinner());
+        scoreboard();
+    }, 800);
 }
+
 
 // Initialize the deck and start the game
 initializeDeck();
