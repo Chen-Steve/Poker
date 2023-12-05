@@ -3,27 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blackjack Terminal</title>
+    <title>Blackjack Game</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-    <div class="terminal">
-        <div class="terminal-header">
-            <strong>Blackjack Terminal</strong>
+<body class="terminal">
+    <div class="terminal-header">
+        <img src="logo.svg" class="header-icon" alt="logo"/>
+        <h2>Blackjack Game</h2>
+    </div>
+    <div id="game-container">
+        <div id="your-box" class="box">
+            <h2>Your Hand</h2>
+            <div id="yourscore" class="score">0</div>
         </div>
-        <div class="terminal-content">
-            <div id="player-hand" class="hand"></div>
-            <div id="dealer-hand" class="hand"></div>
+        <div id="dealer-box" class="box">
+            <h2>Dealer's Hand</h2>
+            <div id="dealerscore" class="score">0</div>
         </div>
-        <div class="terminal-controls">
-            <button id="deal-button" class="btn">Deal</button>
-            <button id="hit-button" class="btn">Hit</button>
-            <button id="stand-button" class="btn" disabled>Stand</button>
-            <button id="replay-button" class="btn">Replay</button>
-        </div>
-        <div class="terminal-footer">
-            <span id="player-score"><strong>Wins:</strong> 0</span>
-            <span id="dealer-score"><strong>Losses:</strong> 0</span>
+    </div>
+    <div class="terminal-controls">
+        <button id="hit" class="btn">Hit</button>
+        <button id="stand" class="btn">Stand</button>
+        <button id="deal" class="btn">Deal</button>
+    </div>
+    <div class="terminal-footer">
+        <div id="result-container">
+            <p id="command">Let's Play</p>
+            <div id="scoreboard">
+                <span>Wins: <strong id="wins">0</strong></span>
+                <span>Losses: <strong id="losses">0</strong></span>
+                <span>Draws: <strong id="draws">0</strong></span>
+            </div>
         </div>
     </div>
     <script src="script.js"></script>
