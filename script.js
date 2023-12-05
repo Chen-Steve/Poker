@@ -125,11 +125,14 @@ const hitsound = new Audio('./static/sounds/swish.m4a');
 
 function BJhit() {
     if (Dealer['score'] === 0) {
-        if (You['score'] <= 21) {
+        if (You['score'] < 21) { // Changed from <= to <
             drawCard(You);
+        } else {
+            alert('You have reached 21. Please stand or deal.');
         }
     }
 }
+
 
 function updateScore(currentCard, activePlayer) {
     const rank = currentCard.slice(0, -1); // Extract the rank from the card symbol
