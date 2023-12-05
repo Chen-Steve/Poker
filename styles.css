@@ -60,8 +60,9 @@ body {
     background-color: #00FF00;
     color: #000;
     border: none;
+    font-size: 0.8em;
     border-radius: 3px;
-    padding: 5px 10px;
+    padding: 5px 6px;
     margin: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease-in-out;
@@ -102,4 +103,29 @@ strong {
     width: 80px; /* Adjust as needed */
     height: auto; /* Maintain aspect ratio */
     margin: 5px; /* Space between cards */
+}
+#funds-container {
+    color: #00FF00;
+    margin: 10px 0;
+}
+
+/* BETTING */
+#betting-container {
+    margin-bottom: 10px;
+}
+
+.bet-input {
+    margin: 0 5px;
+    width: 60px;
+    color: #000;
+    background-color: #fff;
+    border: 1px solid #00FF00;
+}
+
+#placeBet {
+    background-color: #4CAF50;
+}
+
+#placeBet:disabled {
+    background-color: #444;
 }

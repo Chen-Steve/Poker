@@ -21,11 +21,27 @@
             <div id="dealerscore" class="score">0</div>
         </div>
     </div>
+    
     <div class="terminal-controls">
-        <button id="hit" class="btn">Hit</button>
-        <button id="stand" class="btn">Stand</button>
+        <!-- Betting UI -->
+        <div id="betting-container">
+            <span>Funds: <span id="funds">1000</span></span>
+            <div>
+                <label for="betAmount">Bet:</label>
+                <input type="number" id="betAmount" class="bet-input" value="0" min="0">
+                <button id="placeBet" class="btn">Place Bet</button>
+            </div>
+        </div>
+
+        <!-- Existing Game Controls --> 
+        <button id="hit" class="btn" disabled>Hit</button>
+        <button id="stand" class="btn" disabled>Stand</button>
         <button id="deal" class="btn">Deal</button>
+        <button id="insurance" class="btn" disabled>Insurance</button>
+        <button id="doubleDown" class="btn" disabled>Double Down</button>
+        <button id="surrender" class="btn" disabled>Give Up</button>
     </div>
+    
     <div class="terminal-footer">
         <div id="result-container">
             <p id="command">Let's Play</p>

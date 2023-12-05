@@ -5,6 +5,18 @@ let BJgame = {
     'cards': ['2C','3C','4C','5C','6C','7C','8C','9C','10C','KC','QC','JC','AC','2D','3D','4D','5D','6D','7D','8D','9D','10D','KD','QD','JD','AD','2H','3H','4H','5H','6H','7H','8H','9H','10H','KH','QH','JH','AH','2S','3S','4S','5S','6S','7S','8S','9S','10S','KS','QS','JS','AS'],
     
     'cardsmap': {'2C':2,'3C':3,'4C':4,'5C':5,'6C':6,'7C':7,'8C':8,'9C':9,'10C':10,'KC':10,'QC':10,'JC':10,'AC':[1, 11],'2D':2,'3D':3,'4D':4,'5D':5,'6D':6,'7D':7,'8D':8,'9D':9,'10D':10,'KD':10,'QD':10,'JD':10,'AD':[1, 11],'2H':2,'3H':3,'4H':4,'5H':5,'6H':6,'7H':7,'8H':8,'9H':9,'10H':10,'KH':10,'QH':10,'JH':10,'AH':[1, 11],'2S':2,'3S':3,'4S':4,'5S':5,'6S':6,'7S':7,'8S':8,'9S':9,'10S':10,'KS':10,'QS':10,'JS':10,'AS':[1, 11]},
+   
+    'insurance': { 'offered': false, 'taken': false, 'amount': 0 },
+    
+    'playerFunds': 1000, // Starting funds
+    'currentBet': 0,
+
+    // Update player funds
+    updateFunds: function(amount) {
+        this.playerFunds += amount;
+        // Update UI with new funds
+        document.getElementById('funds').textContent = this.playerFunds;
+    },
 
     'wins':0,
     'losses':0,
@@ -37,6 +49,27 @@ function displayHands() {
 
     // Display dealer's first card (hide the second card)
     displayCard('dealer-box', You['cards'][0]);
+
+    // Offer insurance if dealer's first card is an Ace
+    offerInsurance();
+}
+
+function placeBet(amount) {
+    if (BJgame.playerFunds >= amount) {
+        BJgame.currentBet = amount;
+        BJgame.updateFunds(-amount); // Deduct the bet from funds
+    } else {
+        alert("Insufficient funds!");
+    }
+}
+
+function payoutWin() {
+    let winnings = BJgame.currentBet * 2; // Example payout rate
+    BJgame.updateFunds(winnings);
+}
+
+function handleLoss() {
+    BJgame.currentBet = 0; // Reset current bet
 }
 
 let deck = [];
@@ -55,51 +88,56 @@ const Dealer = BJgame['dealer'];
 
 const tink = new Audio('./static/sounds/tink.wav');
 
-function drawCard(activePlayer) {
-    const randomNumber = Math.floor(Math.random() * BJgame['cards'].length);
-    const currentCard = BJgame['cards'].splice(randomNumber, 1)[0]; // Extract the card symbol
+function showCard(activePlayer, cardCode) {
+    let cardNumber = cardCode.slice(0, -1); // Extract card number
+    let cardSuitChar = cardCode.slice(-1); // Extract suit character
+    let suitName = '';
 
-    const cardSuit = currentCard.slice(-1); // Get the last character for suit
-    const cardNumber = currentCard.slice(0, -1); // Get all except the last character for number
-    
-    activePlayer['cards'].push(currentCard); // Add the drawn card to the player's cards array
-
-    let suitName;
-    switch(cardSuit) {
+    switch(cardSuitChar) {
         case 'C': suitName = 'clubs'; break;
         case 'D': suitName = 'diamonds'; break;
         case 'H': suitName = 'hearts'; break;
         case 'S': suitName = 'spades'; break;
-        default: suitName = ''; break;
     }
 
-    let imageName = `${suitName}_`;
+    // Adjusting the cardNumber for face cards and aces
     if (['J', 'Q', 'K', 'A'].includes(cardNumber)) {
-        switch(cardNumber) {
-            case 'J': imageName += 'jack'; break;
-            case 'Q': imageName += 'queen'; break;
-            case 'K': imageName += 'king'; break;
-            case 'A': imageName += 'ace'; break;
-        }
-    } else {
-        imageName += cardNumber;
+        cardNumber = cardNumber === 'J' ? 'jack' :
+                     cardNumber === 'Q' ? 'queen' :
+                     cardNumber === 'K' ? 'king' : 'ace';
     }
-    imageName += '.png';
+
+    let imageName = `${suitName}_${cardNumber.toLowerCase()}.png`;
 
     const cardImage = document.createElement('img');
-    cardImage.src = `svg_playing_cards/fronts/pngVersion/${imageName}`; // Set the source to the card image
-    cardImage.classList.add('card-image'); // Add a class for styling
-    document.querySelector(activePlayer['div']).appendChild(cardImage); // Append the card image to the player's div
+    cardImage.src = `svg_playing_cards/fronts/pngVersion/${imageName}`;
+    cardImage.classList.add('card-image');
+    document.querySelector(activePlayer['div']).appendChild(cardImage);
+}
+
+function drawCard(activePlayer, isFaceDown = false) {
+    const randomNumber = Math.floor(Math.random() * BJgame['cards'].length);
+    const currentCard = BJgame['cards'].splice(randomNumber, 1)[0];
+
+    if (!isFaceDown) {
+        activePlayer['cards'].push(currentCard); // Add the drawn card to the player's cards array
+        showCard(activePlayer, currentCard);
+        updateScore(currentCard, activePlayer); // Update Score
+    } else {
+        // For the dealer's face-down card
+        const cardImage = document.createElement('img');
+        cardImage.src = 'red.png'; // Placeholder for face-down card
+        cardImage.classList.add('card-image');
+        document.querySelector(activePlayer['div']).appendChild(cardImage);
+    }
 
     hitsound.play();
 
-    // Update Score
-    updateScore(currentCard, activePlayer);
-
-    // Show Score
-    showScore(activePlayer);
+    // Show Score only for face-up cards
+    if (!isFaceDown) {
+        showScore(activePlayer);
+    }
 }
-
 
 function getCardSymbol(card) {
     for (const suit of Object.keys(cardSymbols)) {
@@ -123,7 +161,88 @@ function showScore(activeplayer) {
 
 document.querySelector('#hit').addEventListener('click', BJhit);
 
-const hitsound = new Audio('./static/sounds/swish.m4a');
+const hitsound = new Audio('swish.mp3');
+
+// betting
+document.getElementById('placeBet').addEventListener('click', function() {
+    let betAmount = parseInt(document.getElementById('betAmount').value);
+    if (betAmount > 0 && betAmount <= BJgame.playerFunds) {
+        placeBet(betAmount);
+        // Disable betting related controls after placing a bet
+        this.disabled = true;
+        document.getElementById('betAmount').disabled = true;
+        // Enable game controls
+        document.getElementById('hit').disabled = false;
+        document.getElementById('stand').disabled = false;
+    } else {
+        alert("Invalid bet amount!");
+    }
+});
+
+function placeBet(amount) {
+    BJgame.currentBet = amount;
+    BJgame.updateFunds(-amount);
+}
+
+function payoutWin() {
+    let winnings = BJgame.currentBet * 2; // Winning amount is twice the bet
+    BJgame.updateFunds(winnings); // Add winnings to the player's funds
+    BJgame.currentBet = 0; // Reset the current bet
+}
+
+function offerInsurance() {
+    if (Dealer['cards'][0].endsWith('A')) { // Check if dealer's upcard is an Ace
+        BJgame.insurance.offered = true;
+        document.getElementById('insurance').disabled = false; // Enable insurance button
+    }
+}
+
+document.getElementById('insurance').addEventListener('click', function() {
+    takeInsurance();
+    // Any additional logic when insurance is taken
+    this.disabled = true; // Disable the button after taking insurance
+});
+
+function takeInsurance() {
+    BJgame.insurance.taken = true;
+    BJgame.insurance.amount = BJgame.currentBet / 2;
+    // Deduct insurance amount from player's balance
+    // Other relevant logic
+}
+
+document.getElementById('doubleDown').addEventListener('click', function() {
+    doubleDown();
+    this.disabled = true; // Disable the button after use
+});
+
+function doubleDown() {
+    if (You['cards'].length === 2 && Dealer['score'] === 0) {
+        placeBet(BJgame.currentBet); // Place an additional bet equal to the current bet
+        BJgame.currentBet *= 2; // Double the bet
+        drawCard(You);
+        BJstand(); // The player must stand after doubling down
+    } else {
+        alert("Insufficient funds to double down!");
+    }
+}
+
+document.getElementById('surrender').addEventListener('click', function() {
+    surrender();
+    this.disabled = true; // Disable the button after use
+});
+
+function surrender() {
+    if (You['cards'].length === 2 && Dealer['score'] === 0) {
+        BJgame.losses++;
+        BJgame.currentBet /= 2; // Adjust the bet to half
+        // Update player's balance with the returned amount
+        resetGame(); // End the round
+    } else {
+        // Notify player they can't surrender
+    }
+    BJgame.updateFunds(BJgame.currentBet / 2); // Return half the bet to the player
+    BJgame.currentBet = 0; // Reset current bet
+}
 
 function BJhit() {
     if (Dealer['score'] === 0) {
@@ -134,7 +253,6 @@ function BJhit() {
         }
     }
 }
-
 
 function updateScore(currentCard, activePlayer) {
     const rank = currentCard.slice(0, -1); // Extract the rank from the card symbol
@@ -169,29 +287,29 @@ function showScore(activeplayer){
 }
 
 // Compute Winner Function
-function findwinner(){
+function findwinner() {
     let winner;
 
-    if(You['score']<=21){
-        if(Dealer['score']<You['score'] || Dealer['score']>21){
+    if (You['score'] <= 21) {
+        if (Dealer['score'] < You['score'] || Dealer['score'] > 21) {
             BJgame['wins']++;
             winner = You;
-        }
-        else if(Dealer['score'] == You['score']){
+            payoutWin(); // Player wins and receives winnings
+        } else if (Dealer['score'] == You['score']) {
             BJgame['draws']++;
-        }
-        else{
+            // Return the bet to the player in case of a draw
+            BJgame.updateFunds(BJgame.currentBet);
+        } else {
             BJgame['losses']++;
             winner = Dealer;
         }
-    }
-    else if(You['score']>21 && Dealer['score']<=21){
+    } else if (You['score'] > 21 && Dealer['score'] <= 21) {
         BJgame['losses']++;
         winner = Dealer;
-    }
-    else if(You['score']>21 && Dealer['score']>21){
+    } else if (You['score'] > 21 && Dealer['score'] > 21) {
         BJgame['draws']++;
     }
+    BJgame.currentBet = 0; // Reset the current bet for the next round
     return winner;
 }
 
@@ -268,11 +386,26 @@ function BJdeal() {
         // Player hasn't busted and dealer hasn't played yet
         alert('Please Press Stand Key Before Deal...');
     }
+
+    drawCard(You);
+    drawCard(You);
+    drawCard(Dealer);
+    drawCard(Dealer, true); // Second dealer card is face-down
 }
 
 
 // Dealer's Logic (2nd player) OR Stand button
 document.querySelector('#stand').addEventListener('click', BJstand);
+
+function gameEnd(winner) {
+    if (winner === You) {
+        payoutWin();
+    } else if (winner === Dealer) {
+        handleLoss();
+    }
+    // Reset current bet for next round
+    BJgame.currentBet = 0;
+}
 
 function BJstand() {
     if (You['cards'].length < 2) {
