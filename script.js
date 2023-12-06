@@ -54,13 +54,14 @@ document.addEventListener('DOMContentLoaded', function() {
             yoyo: true,
             ease: "sine.inOut"
         });
+        Draggable.create(".card", {
+            type: "x,y", // Allow dragging on both x and y axes
+            edgeResistance: 0.65, // Control the bounds resistance
+            bounds: window, // Set the bounds to the window
+            throwProps: true // Allow flicking the cards
+        });
     });
 });
-
-
-
-
-
 
 const cardSymbols = {
     'hearts': ['2♥', '3♥', '4♥', '5♥', '6♥', '7♥', '8♥', '9♥', '10♥', 'J♥', 'Q♥', 'K♥', 'A♥'],
@@ -93,27 +94,6 @@ function displayHands() {
     offerInsurance();
 }
 
-function placeBet(amount) {
-    if (BJgame.playerFunds >= amount) {
-        BJgame.currentBet = amount;
-        BJgame.updateFunds(-amount); // Deduct the bet from funds
-        // Disable betting controls
-        document.getElementById('betAmount').disabled = true;
-        document.getElementById('placeBet').disabled = true;
-    } else {
-        alert("Insufficient funds!");
-    }
-}
-
-
-function payoutWin() {
-    let winnings = BJgame.currentBet * 2; // Example payout rate
-    BJgame.updateFunds(winnings);
-}
-
-function handleLoss() {
-    BJgame.currentBet = 0; // Reset current bet
-}
 
 let deck = [];
 
@@ -124,6 +104,9 @@ function initializeDeck() {
             deck.push({ rank, suit });
         }
     }
+    BJgame.currentBet = 0;
+    document.getElementById('hit').disabled = true;
+    document.getElementById('stand').disabled = true;
 }
 
 const You = BJgame['you'];
@@ -211,10 +194,6 @@ document.getElementById('placeBet').addEventListener('click', function() {
     let betAmount = parseInt(document.getElementById('betAmount').value);
     if (betAmount > 0 && betAmount <= BJgame.playerFunds) {
         placeBet(betAmount);
-        // Disable betting related controls after placing a bet
-        this.disabled = true;
-        document.getElementById('betAmount').disabled = true;
-        // Enable game controls
         document.getElementById('hit').disabled = false;
         document.getElementById('stand').disabled = false;
     } else {
@@ -223,13 +202,27 @@ document.getElementById('placeBet').addEventListener('click', function() {
 });
 
 function placeBet(amount) {
-    BJgame.currentBet = amount;
-    BJgame.updateFunds(-amount);
+    if (BJgame.playerFunds >= amount) {
+        BJgame.currentBet = amount;
+        BJgame.updateFunds(-amount); // Deduct the bet from funds
+        document.getElementById('hit').disabled = false;
+        document.getElementById('stand').disabled = false;
+        // Disable betting controls
+        document.getElementById('betAmount').disabled = true;
+        document.getElementById('placeBet').disabled = true;
+    } else {
+        alert("Insufficient funds!");
+    }
 }
 
 function payoutWin() {
-    let winnings = BJgame.currentBet * 2; // Winning amount is twice the bet
-    BJgame.updateFunds(winnings); // Add winnings to the player's funds
+    let winnings = BJgame.currentBet * 2;
+    BJgame.updateFunds(winnings);
+    BJgame.currentBet = 0; // Reset the current bet
+}
+function handleLoss() {
+    let lossAmount = BJgame.currentBet * 2.5; // Losing amount is 2.5 times the bet
+    BJgame.updateFunds(-lossAmount); // Deduct the loss from the player's funds
     BJgame.currentBet = 0; // Reset the current bet
 }
 
@@ -332,7 +325,6 @@ function showScore(activeplayer){
 // Compute Winner Function
 function findwinner() {
     let winner;
-
     if (You['score'] <= 21) {
         if (Dealer['score'] < You['score'] || Dealer['score'] > 21) {
             BJgame['wins']++;
@@ -352,7 +344,6 @@ function findwinner() {
     } else if (You['score'] > 21 && Dealer['score'] > 21) {
         BJgame['draws']++;
     }
-    BJgame.currentBet = 0; // Reset the current bet for the next round
     return winner;
 }
 
@@ -409,9 +400,12 @@ function BJhit() {
 document.querySelector('#deal').addEventListener('click', BJdeal);
 
 function resetBettingUI() {
-    document.getElementById('betAmount').value = ''; // Reset bet amount input
-    document.getElementById('betAmount').disabled = false; // Re-enable bet amount input
-    document.getElementById('placeBet').disabled = false; // Re-enable "Place Bet" button
+    BJgame.currentBet = 0;
+    document.getElementById('betAmount').value = '';
+    document.getElementById('betAmount').disabled = false;
+    document.getElementById('placeBet').disabled = false;
+    document.getElementById('hit').disabled = true;
+    document.getElementById('stand').disabled = true;
 }
 
 function BJdeal() {
@@ -433,7 +427,6 @@ function BJdeal() {
         document.querySelector('#command').style.color = 'black';
 
         // Reset betting UI for the next game
-        resetBettingUI();
     } else {
         // Player hasn't busted and dealer hasn't played yet
         alert('Please Press Stand Key Before Deal...');
@@ -451,6 +444,7 @@ function gameEnd(winner) {
     }
     // Reset current bet for next round
     BJgame.currentBet = 0;
+    resetBettingUI();
 }
 
 function BJstand() {
@@ -469,8 +463,8 @@ function BJstand() {
         showresults(findwinner());
         scoreboard();
     }, 800);
+    resetBettingUI();
 }
-
 
 // Initialize the deck and start the game
 initializeDeck();

@@ -139,7 +139,7 @@ strong {
     height: 100vh;
     z-index: -1; /* Ensure it's behind the game content */
     overflow: hidden;
-    pointer-events: none; /* Prevent interaction with these elements */
+    pointer-events: auto; 
 }
 
 .card {
