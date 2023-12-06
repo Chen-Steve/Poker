@@ -26,37 +26,37 @@ let BJgame = {
 document.addEventListener('DOMContentLoaded', function() {
     const cards = document.querySelectorAll('.floating-cards .card');
 
-    cards.forEach(card => {
-        // Randomize initial direction and speed
-        let deltaX = Math.random() * 2 - 1; // Horizontal movement
-        let deltaY = Math.random() * 2 - 1; // Vertical movement
-        let rotation = Math.random() * 2 - 1; // Rotation
+    cards.forEach((card, index) => {
+        const cards = document.querySelectorAll('.floating-cards .card');
+        // Random rotation and duration for spinning
+        const rotation = Math.random() * 720 - 360; // Random rotation between -360 and 360 degrees
+        const rotationDuration = Math.random() * 20 + 10; // Duration between 10 and 30 seconds
 
-        function moveCard() {
-            let rect = card.getBoundingClientRect();
+        // GSAP rotation animation
+        gsap.to(card, {
+            duration: rotationDuration,
+            rotation: rotation,
+            repeat: -1,
+            ease: "linear"
+        });
 
-            // Check for boundary collision
-            if (rect.left <= 0 || rect.right >= window.innerWidth) {
-                deltaX = -deltaX;
-            }
-            if (rect.top <= 0 || rect.bottom >= window.innerHeight) {
-                deltaY = -deltaY;
-            }
+        // Randomized movement parameters
+        const xMove = Math.random() * window.innerWidth / 4;
+        const yMove = Math.random() * window.innerHeight / 4;
+        const moveDuration = Math.random() * 20 + 10;
 
-            // Move and rotate the card
-            card.style.left = (card.offsetLeft + deltaX) + 'px';
-            card.style.top = (card.offsetTop + deltaY) + 'px';
-            card.style.transform = `rotate(${rotation}deg)`;
-
-            // Adjust rotation
-            rotation += Math.random() - 0.5;
-
-            requestAnimationFrame(moveCard);
-        }
-
-        moveCard();
+        // GSAP movement animation
+        gsap.to(card, {
+            duration: moveDuration,
+            x: xMove,
+            y: yMove,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut"
+        });
     });
 });
+
 
 
 

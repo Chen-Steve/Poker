@@ -147,6 +147,8 @@ strong {
     width: 100px; /* Adjust size as needed */
     height: 140px; /* Adjust size as needed */
     background-size: cover;
+    transition: transform 0.5s ease;
+
 }
 
 .card1 {
