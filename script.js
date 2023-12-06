@@ -23,6 +23,44 @@ let BJgame = {
     'draws':0
 };
 
+document.addEventListener('DOMContentLoaded', function() {
+    const cards = document.querySelectorAll('.floating-cards .card');
+
+    cards.forEach(card => {
+        // Randomize initial direction and speed
+        let deltaX = Math.random() * 2 - 1; // Horizontal movement
+        let deltaY = Math.random() * 2 - 1; // Vertical movement
+        let rotation = Math.random() * 2 - 1; // Rotation
+
+        function moveCard() {
+            let rect = card.getBoundingClientRect();
+
+            // Check for boundary collision
+            if (rect.left <= 0 || rect.right >= window.innerWidth) {
+                deltaX = -deltaX;
+            }
+            if (rect.top <= 0 || rect.bottom >= window.innerHeight) {
+                deltaY = -deltaY;
+            }
+
+            // Move and rotate the card
+            card.style.left = (card.offsetLeft + deltaX) + 'px';
+            card.style.top = (card.offsetTop + deltaY) + 'px';
+            card.style.transform = `rotate(${rotation}deg)`;
+
+            // Adjust rotation
+            rotation += Math.random() - 0.5;
+
+            requestAnimationFrame(moveCard);
+        }
+
+        moveCard();
+    });
+});
+
+
+
+
 const cardSymbols = {
     'hearts': ['2♥', '3♥', '4♥', '5♥', '6♥', '7♥', '8♥', '9♥', '10♥', 'J♥', 'Q♥', 'K♥', 'A♥'],
     'diamonds': ['2♦', '3♦', '4♦', '5♦', '6♦', '7♦', '8♦', '9♦', '10♦', 'J♦', 'Q♦', 'K♦', 'A♦'],
