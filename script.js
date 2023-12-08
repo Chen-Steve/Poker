@@ -238,14 +238,14 @@ function handleGameOutcome(outcome) {
 
 function payoutWin() {
     let winnings = BJgame.currentBet * 2;
-    BJgame.updateFunds(winnings);
-    BJgame.currentBet = 0; // Reset the current bet
+    BJgame.updateFunds(+winnings);
 }
+
 function handleLoss() {
     let lossAmount = BJgame.currentBet * 2.5; // Losing amount is 2.5 times the bet
     BJgame.updateFunds(-lossAmount); // Deduct the loss from the player's funds
-    BJgame.currentBet = 0; // Reset the current bet
-    resetBettingUI(); // Reset the betting UI for the next game
+    // BJgame.currentBet = 0;
+    // resetBettingUI();
 }
 
 function offerInsurance() {
