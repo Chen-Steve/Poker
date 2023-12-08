@@ -245,6 +245,7 @@ function handleLoss() {
     let lossAmount = BJgame.currentBet * 2.5; // Losing amount is 2.5 times the bet
     BJgame.updateFunds(-lossAmount); // Deduct the loss from the player's funds
     BJgame.currentBet = 0; // Reset the current bet
+    resetBettingUI(); // Reset the betting UI for the next game
 }
 
 function offerInsurance() {
@@ -431,8 +432,6 @@ function resetBettingUI() {
     document.getElementById('hit').disabled = true;
     document.getElementById('stand').disabled = true;
 }
-
-document.getElementById('placeBet').addEventListener('click', placeBet);
 
 function BJdeal() {
     // Check if the player's turn is over (either busted or the dealer has played)
