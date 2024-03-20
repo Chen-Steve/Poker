@@ -1,4 +1,4 @@
-Fully functioning Casion rule Blackjack game
+Fully functioning Casino rule Blackjack game
 
 Setup
 - Clone/Download the Repository: Get a copy of the project files onto your local machine.
