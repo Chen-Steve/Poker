@@ -187,7 +187,7 @@ function showScore(activeplayer) {
 
 document.querySelector('#hit').addEventListener('click', BJhit);
 
-const hitsound = new Audio('swish.mp3');
+const hitsound = new Audio('sound_effects/swish.mp3');
 
 // betting
 document.getElementById('placeBet').addEventListener('click', function() {
@@ -327,10 +327,10 @@ function findwinner() {
 }
 
 // Results
-const winSound = new Audio('cha-ching.mp3'); 
-const cheers = new Audio('cheer.mp3');
-const loseSound = new Audio('aww.mp3');
-const drawSound = new Audio('aww.mp3');
+const winSound = new Audio('sound_effects/cha-ching.mp3'); 
+const cheers = new Audio('sound_effects/cheer.mp3');
+const loseSound = new Audio('sound_effects/aww.mp3');
+const drawSound = new Audio('sound_effects/aww.mp3');
 
 function showresults(winner){
     if(winner == You){
