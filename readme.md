@@ -2,6 +2,8 @@
 
 A simple web-based Blackjack game that brings the casino experience directly to your browser. Built with HTML, CSS, and JavaScript, this game follows traditional Blackjack rules with a simple, intuitive interface designed for both beginners and experienced players.
 
+- some features are to in progress
+
 ## Features
 
 - **Casino Rule Compliance**: Follows standard Blackjack rules for a genuine casino experience.
