@@ -112,7 +112,7 @@ function initializeDeck() {
 const You = BJgame['you'];
 const Dealer = BJgame['dealer'];
 
-const tink = new Audio('./static/sounds/tink.wav');
+// const tink = new Audio('./static/sounds/tink.wav');
 
 function showCard(activePlayer, cardCode) {
     let cardNumber = cardCode.slice(0, -1); // Extract card number
@@ -221,31 +221,15 @@ function placeBet() {
     document.getElementById('stand').disabled = false;
 }
 
-// Function to handle the outcome of the game
-function handleGameOutcome(outcome) {
-    switch (outcome) {
-        case 'win':
-            BJgame.updateFunds(BJgame.currentBet * 2); // Player wins 2x their bet
-            break;
-        case 'draw':
-            BJgame.updateFunds(BJgame.currentBet); // Return the bet to the player
-            break;
-        // No need for 'lose' case since the bet is already deducted
-    }
-    BJgame.currentBet = 0; // Reset the current bet
-    resetBettingUI();
+function payoutWin() {
+    console.log(`Payout before update: Bet = ${BJgame.currentBet}, Player Funds = ${BJgame.playerFunds}`);
+    BJgame.updateFunds(BJgame.currentBet * 2);
+    console.log(`Payout after update: Player Funds = ${BJgame.playerFunds}`);
 }
 
-function payoutWin() {
-    let winnings = BJgame.currentBet * 2;
-    BJgame.updateFunds(+winnings);
-}
 
 function handleLoss() {
-    let lossAmount = BJgame.currentBet * 2.5; // Losing amount is 2.5 times the bet
-    BJgame.updateFunds(-lossAmount); // Deduct the loss from the player's funds
-    // BJgame.currentBet = 0;
-    // resetBettingUI();
+    BJgame.updateFunds(-BJgame.currentBet);
 }
 
 function offerInsurance() {
@@ -303,19 +287,8 @@ function surrender() {
     }
 }
 
-function BJhit() {
-    if (Dealer['score'] === 0) {
-        if (You['score'] < 21) { // Changed from <= to <
-            drawCard(You);
-        } else {
-            alert('You have reached 21. Please stand or deal.');
-        }
-    }
-}
-
 function updateScore(currentCard, activePlayer) {
     const rank = currentCard.slice(0, -1); // Extract the rank from the card symbol
-
     if (rank === 'A') {
         // If adding 11 keeps the score under or equal to 21, use 11, otherwise use 1
         if (activePlayer['score'] + 11 <= 21) {
@@ -330,44 +303,25 @@ function updateScore(currentCard, activePlayer) {
         // Other cards are worth their face value
         activePlayer['score'] += parseInt(rank);
     }
-
     showScore(activePlayer);
-}
-
-
-function showScore(activeplayer){
-    if(activeplayer['score']>21){
-        document.querySelector(activeplayer['scoreSpan']).textContent = 'BUST!';
-        document.querySelector(activeplayer['scoreSpan']).style.color = 'yellow';
-    }
-    else{
-        document.querySelector(activeplayer['scoreSpan']).textContent = activeplayer['score'];
-    }
 }
 
 // Compute Winner Function
 function findwinner() {
     let winner;
-    if (You['score'] <= 21) {
-        if (Dealer['score'] < You['score'] || Dealer['score'] > 21) {
-            BJgame['wins']++;
-            winner = You;
-            payoutWin(); // Player wins and receives winnings
-        } else if (Dealer['score'] == You['score']) {
-            BJgame['draws']++;
-            BJgame.updateFunds(BJgame.currentBet); // Return the bet to the player in case of a draw
-        } else {
-            BJgame['losses']++;
-            winner = Dealer;
-            handleLoss(); // Player loses the bet
-        }
-    } else if (You['score'] > 21 && Dealer['score'] <= 21) {
+    if (You['score'] <= 21 && (Dealer['score'] < You['score'] || Dealer['score'] > 21)) {
+        BJgame['wins']++;
+        winner = You;
+        payoutWin(); // Player wins and receives winnings
+    } 
+    else if (You['score'] === Dealer['score'] || (You['score'] > 21 && Dealer['score'] > 21)) {
+        BJgame['draws']++;
+        BJgame.updateFunds(BJgame.currentBet); // Return the bet to the player in case of a draw
+    } 
+    else {
         BJgame['losses']++;
         winner = Dealer;
         handleLoss(); // Player loses the bet
-    } else if (You['score'] > 21 && Dealer['score'] > 21) {
-        BJgame['draws']++;
-        BJgame.updateFunds(BJgame.currentBet); // Return the bet to the player in case of a draw
     }
     return winner;
 }
@@ -413,11 +367,6 @@ function BJhit() {
     if (Dealer['score'] === 0) {
         if (You['score'] < 21) {
             drawCard(You);
-            if (You['score'] > 21) {
-                // Player busts
-                showresults(findwinner()); // Determine the winner
-                scoreboard(); // Update the scoreboard
-            }
         }
     }
 }
@@ -425,7 +374,6 @@ function BJhit() {
 document.querySelector('#deal').addEventListener('click', BJdeal);
 
 function resetBettingUI() {
-    BJgame.currentBet = 0;
     document.getElementById('betAmount').value = '';
     document.getElementById('betAmount').disabled = false;
     document.getElementById('placeBet').disabled = false;
@@ -461,17 +409,6 @@ function BJdeal() {
 // Dealer's Logic (2nd player) OR Stand button
 document.querySelector('#stand').addEventListener('click', BJstand);
 
-function gameEnd(winner) {
-    if (winner === You) {
-        payoutWin();
-    } else if (winner === Dealer) {
-        handleLoss();
-    }
-    // Reset current bet for next round
-    BJgame.currentBet = 0;
-    resetBettingUI();
-}
-
 function BJstand() {
     if (You['cards'].length < 2) {
         alert("You need to have at least two cards to stand.");
@@ -494,4 +431,3 @@ function BJstand() {
 // Initialize the deck and start the game
 initializeDeck();
 resetBettingUI();
-resetGame();
