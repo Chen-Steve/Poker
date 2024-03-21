@@ -1,16 +1,24 @@
-Fully functioning Casino rule Blackjack game
+# Casino-Style Blackjack Game
 
-Setup
-- Clone/Download the Repository: Get a copy of the project files onto your local machine.
-- Open index.html: Launch the game by opening the index.html file in any modern web browser.
-- Enjoy the Game: Start playing by interacting with the on-screen buttons.
+A simple web-based Blackjack game that brings the casino experience directly to your browser. Built with HTML, CSS, and JavaScript, this game follows traditional Blackjack rules with a simple, intuitive interface designed for both beginners and experienced players.
 
-How to Play
-- Hit: Draw another card from the deck.
-- Stand: Stop drawing cards and end your turn.
-- Deal: Start a new round.
-- The game follows standard Blackjack rules:
+## Features
 
-1. Aim to get as close to 21 as possible without going over.
-2. Face cards (King, Queen, Jack) are worth 10. Aces can be worth 1 or 11.
-3. If you exceed 21, you 'bust' and automatically lose the round.
+- **Casino Rule Compliance**: Follows standard Blackjack rules for a genuine casino experience.
+- **Responsive Design**: Optimized for desktop and mobile browsers.
+- **Interactive UI**: Easy-to-use controls for hitting, standing, and dealing.
+- **Game Options**: Supports insurance, double down, and surrender decisions for deeper strategy.
+- **Sound Effects**: Enhances gameplay with audio feedback for card dealing and game outcomes.
+
+## Getting Started
+
+### Prerequisites
+
+- A modern web browser (e.g., Chrome, Firefox, Safari).
+
+### Setup
+
+1. **Clone or download this repository** to your local machine:
+
+```bash
+git clone https://github.com/<your-username>/<repository-name>.git
