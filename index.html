@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blackjack Game</title>
+    <link rel="shortcut icon" href="dice.ico" type="image/x-icon" />
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/Draggable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1.28.5/dist/supabase.min.js"></script>
 
 </head>
 <body class="terminal">
@@ -51,9 +53,7 @@
         <button id="hit" class="btn" disabled>Hit</button>
         <button id="stand" class="btn" disabled>Stand</button>
         <button id="deal" class="btn">Deal</button>
-        <button id="insurance" class="btn" disabled>Insurance</button>
-        <button id="doubleDown" class="btn" disabled>Double Down</button>
-        <button id="surrender" class="btn" disabled>Give Up</button>
+        <button id="doubleDown" class="btn">Double Down</button>
     </div>
     
     <div class="terminal-footer">

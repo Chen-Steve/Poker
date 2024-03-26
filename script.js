@@ -5,10 +5,8 @@ let BJgame = {
     'cards': ['2C','3C','4C','5C','6C','7C','8C','9C','10C','KC','QC','JC','AC','2D','3D','4D','5D','6D','7D','8D','9D','10D','KD','QD','JD','AD','2H','3H','4H','5H','6H','7H','8H','9H','10H','KH','QH','JH','AH','2S','3S','4S','5S','6S','7S','8S','9S','10S','KS','QS','JS','AS'],
     
     'cardsmap': {'2C':2,'3C':3,'4C':4,'5C':5,'6C':6,'7C':7,'8C':8,'9C':9,'10C':10,'KC':10,'QC':10,'JC':10,'AC':[1, 11],'2D':2,'3D':3,'4D':4,'5D':5,'6D':6,'7D':7,'8D':8,'9D':9,'10D':10,'KD':10,'QD':10,'JD':10,'AD':[1, 11],'2H':2,'3H':3,'4H':4,'5H':5,'6H':6,'7H':7,'8H':8,'9H':9,'10H':10,'KH':10,'QH':10,'JH':10,'AH':[1, 11],'2S':2,'3S':3,'4S':4,'5S':5,'6S':6,'7S':7,'8S':8,'9S':9,'10S':10,'KS':10,'QS':10,'JS':10,'AS':[1, 11]},
-   
-    'insurance': { 'offered': false, 'taken': false, 'amount': 0 },
-    
-    'playerFunds': 1000, // Starting funds
+       
+    'playerFunds': 1000, 
     'currentBet': 0,
 
     // Update player funds
@@ -22,6 +20,19 @@ let BJgame = {
     'losses':0,
     'draws':0
 };
+
+const cardSymbols = {
+    'hearts': ['2♥', '3♥', '4♥', '5♥', '6♥', '7♥', '8♥', '9♥', '10♥', 'J♥', 'Q♥', 'K♥', 'A♥'],
+    'diamonds': ['2♦', '3♦', '4♦', '5♦', '6♦', '7♦', '8♦', '9♦', '10♦', 'J♦', 'Q♦', 'K♦', 'A♦'],
+    'clubs': ['2♣', '3♣', '4♣', '5♣', '6♣', '7♣', '8♣', '9♣', '10♣', 'J♣', 'Q♣', 'K♣', 'A♣'],
+    'spades': ['2♠', '3♠', '4♠', '5♠', '6♠', '7♠', '8♠', '9♠', '10♠', 'J♠', 'Q♠', 'K♠', 'A♠'],
+};
+
+const winSound = new Audio('sound_effects/cha-ching.mp3'); 
+const cheers = new Audio('sound_effects/cheer.mp3');
+const loseSound = new Audio('sound_effects/aww.mp3');
+const drawSound = new Audio('sound_effects/aww.mp3');
+const hitsound = new Audio('sound_effects/swish.mp3');
 
 document.addEventListener('DOMContentLoaded', function() {
     const cards = document.querySelectorAll('.floating-cards .card');
@@ -63,13 +74,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-const cardSymbols = {
-    'hearts': ['2♥', '3♥', '4♥', '5♥', '6♥', '7♥', '8♥', '9♥', '10♥', 'J♥', 'Q♥', 'K♥', 'A♥'],
-    'diamonds': ['2♦', '3♦', '4♦', '5♦', '6♦', '7♦', '8♦', '9♦', '10♦', 'J♦', 'Q♦', 'K♦', 'A♦'],
-    'clubs': ['2♣', '3♣', '4♣', '5♣', '6♣', '7♣', '8♣', '9♣', '10♣', 'J♣', 'Q♣', 'K♣', 'A♣'],
-    'spades': ['2♠', '3♠', '4♠', '5♠', '6♠', '7♠', '8♠', '9♠', '10♠', 'J♠', 'Q♠', 'K♠', 'A♠'],
-};
-
 function displayCard(containerId, cardSymbol) {
     const container = document.getElementById(containerId);
     const cardText = document.createElement('div');
@@ -89,16 +93,11 @@ function displayHands() {
 
     // Display dealer's first card (hide the second card)
     displayCard('dealer-box', You['cards'][0]);
-
-    // Offer insurance if dealer's first card is an Ace
-    offerInsurance();
 }
-
-
-let deck = [];
 
 // Function to initialize the deck with all cards
 function initializeDeck() {
+    let deck = [];
     for (const suit of Object.keys(cardSymbols)) {
         for (let rank = 2; rank <= 14; rank++) {
             deck.push({ rank, suit });
@@ -111,8 +110,6 @@ function initializeDeck() {
 
 const You = BJgame['you'];
 const Dealer = BJgame['dealer'];
-
-// const tink = new Audio('./static/sounds/tink.wav');
 
 function showCard(activePlayer, cardCode) {
     let cardNumber = cardCode.slice(0, -1); // Extract card number
@@ -142,6 +139,7 @@ function showCard(activePlayer, cardCode) {
 }
 
 function drawCard(activePlayer, isFaceDown = false) {
+    console.log(`Drawing card for ${activePlayer === You ? "player" : "dealer"}. Cards before draw:`, activePlayer['cards']);
     const randomNumber = Math.floor(Math.random() * BJgame['cards'].length);
     const currentCard = BJgame['cards'].splice(randomNumber, 1)[0];
 
@@ -173,7 +171,7 @@ function getCardSymbol(card) {
             }
         }
     }
-    return ''; // Return an empty string if the card is not found
+    return '';
 }
 
 function showScore(activeplayer) {
@@ -185,15 +183,11 @@ function showScore(activeplayer) {
     }
 }
 
-document.querySelector('#hit').addEventListener('click', BJhit);
-
-const hitsound = new Audio('sound_effects/swish.mp3');
-
-// betting
+// Betting event listener
 document.getElementById('placeBet').addEventListener('click', function() {
     let betAmount = parseInt(document.getElementById('betAmount').value);
     if (betAmount > 0 && betAmount <= BJgame.playerFunds) {
-        placeBet(betAmount);
+        placeBet(betAmount); // Pass the bet amount to the function
         document.getElementById('hit').disabled = false;
         document.getElementById('stand').disabled = false;
     } else {
@@ -201,13 +195,9 @@ document.getElementById('placeBet').addEventListener('click', function() {
     }
 });
 
-// Function to place a bet
-function placeBet() {
-    let betAmount = parseInt(document.getElementById('betAmount').value);
-    if (isNaN(betAmount) || betAmount <= 0) {
-        alert("Please enter a valid bet amount.");
-        return;
-    }
+function placeBet(betAmount) {
+    console.log(`Placing bet: ${betAmount}. Player funds before bet: ${BJgame.playerFunds}`);
+    
     if (betAmount > BJgame.playerFunds) {
         alert("You cannot bet more than your current funds.");
         return;
@@ -219,6 +209,9 @@ function placeBet() {
     // Enable game controls
     document.getElementById('hit').disabled = false;
     document.getElementById('stand').disabled = false;
+
+    // After placing a bet, it's a good idea to check if double down is allowed
+    checkDoubleDownEligibility();
 }
 
 function payoutWin() {
@@ -227,63 +220,39 @@ function payoutWin() {
     console.log(`Payout after update: Player Funds = ${BJgame.playerFunds}`);
 }
 
-
 function handleLoss() {
     BJgame.updateFunds(-BJgame.currentBet);
 }
 
-function offerInsurance() {
-    if (Dealer['cards'][0].endsWith('A')) { // Check if dealer's upcard is an Ace
-        BJgame.insurance.offered = true;
-        document.getElementById('insurance').disabled = false; // Enable insurance button
+function checkDoubleDownEligibility() {
+    console.log("Checking double down eligibility. Player's cards:", You['cards'].length, "Player's funds:", BJgame.playerFunds, "Current Bet:", BJgame.currentBet);
+    if (You['cards'].length === 2 && BJgame.playerFunds >= BJgame.currentBet * 2) {
+        document.getElementById('doubleDown').disabled = false;
+        console.log("Double down enabled.");
+    } else {
+        document.getElementById('doubleDown').disabled = true;
+        console.log("Double down disabled.");
     }
 }
 
-document.getElementById('insurance').addEventListener('click', function() {
-    takeInsurance();
-    // Any additional logic when insurance is taken
-    this.disabled = true; // Disable the button after taking insurance
-});
+checkDoubleDownEligibility();
 
-function takeInsurance() {
-    BJgame.insurance.taken = true;
-    BJgame.insurance.amount = BJgame.currentBet / 2;
-    // Deduct insurance amount from player's balance
-    // Other relevant logic
-}
-
-document.getElementById('doubleDown').addEventListener('click', function() {
-    doubleDown();
-    this.disabled = true; // Disable the button after use
-});
+document.getElementById('doubleDown').addEventListener('click', doubleDown);
 
 function doubleDown() {
-    if (You['cards'].length === 2 && Dealer['score'] === 0) {
-        if (BJgame.playerFunds >= BJgame.currentBet) {
-            BJgame.updateFunds(-BJgame.currentBet); // Deduct the additional bet from funds
-            BJgame.currentBet *= 2; // Double the bet
-            drawCard(You);
-            BJstand(); // The player must stand after doubling down
-        } else {
-            alert("Insufficient funds to double down!");
-        }
-    }
-}
-
-document.getElementById('surrender').addEventListener('click', function() {
-    surrender();
-    this.disabled = true; // Disable the button after use
-});
-
-function surrender() {
-    if (You['cards'].length === 2 && Dealer['score'] === 0) {
-        BJgame.losses++;
-        BJgame.updateFunds(BJgame.currentBet / 2); // Return half the bet to the player
-        BJgame.currentBet = 0; // Reset current bet
-        resetBettingUI();
-        // Additional logic to reset the game for a new round
+    console.log("Double down clicked. Checking conditions...");
+    if (You['cards'].length === 2 && BJgame.currentBet > 0 && BJgame.playerFunds >= BJgame.currentBet) {
+        console.log("Double down conditions met.");
+        BJgame.updateFunds(-BJgame.currentBet);
+        BJgame.currentBet *= 2;
+        drawCard(You);
+        BJstand();
+        document.getElementById('doubleDown').disabled = true;
+        document.getElementById('hit').disabled = true;
+        console.log("Double down executed. New bet:", BJgame.currentBet);
     } else {
-        alert("You can't surrender at this moment!");
+        console.log("Double down conditions not met.");
+        alert("Double down is not allowed at this time.");
     }
 }
 
@@ -326,12 +295,6 @@ function findwinner() {
     return winner;
 }
 
-// Results
-const winSound = new Audio('sound_effects/cha-ching.mp3'); 
-const cheers = new Audio('sound_effects/cheer.mp3');
-const loseSound = new Audio('sound_effects/aww.mp3');
-const drawSound = new Audio('sound_effects/aww.mp3');
-
 function showresults(winner){
     if(winner == You){
         document.querySelector('#command').textContent = 'You Won!';
@@ -353,25 +316,28 @@ function showresults(winner){
 
 }
 
-// Scoreboard
 function scoreboard(){
     document.querySelector('#wins').textContent = BJgame['wins'];
     document.querySelector('#losses').textContent = BJgame['losses'];
     document.querySelector('#draws').textContent = BJgame['draws'];
 }
 
-// Hit Button (starting)
 document.querySelector('#hit').addEventListener('click', BJhit);
 
 function BJhit() {
     if (Dealer['score'] === 0) {
         if (You['score'] < 21) {
             drawCard(You);
+            // Disable "Double Down" only if more than two cards are now in the player's hand
+            if (You['cards'].length > 2) {
+                document.getElementById('doubleDown').disabled = true;
+            }
         }
+    } else {
+        // If the dealer has already played, typically the player should not be allowed to hit. This could be an end-of-round scenario.
+        console.log("Round over, cannot hit.");
     }
 }
-
-document.querySelector('#deal').addEventListener('click', BJdeal);
 
 function resetBettingUI() {
     document.getElementById('betAmount').value = '';
@@ -381,8 +347,9 @@ function resetBettingUI() {
     document.getElementById('stand').disabled = true;
 }
 
+document.querySelector('#deal').addEventListener('click', BJdeal);
+
 function BJdeal() {
-    // Check if the player's turn is over (either busted or the dealer has played)
     if (You['score'] > 21 || Dealer['score'] > 0) {
         // Clear the cards and reset scores
         document.getElementById('your-box').innerHTML = '<h2>Your Hand</h2><div id="yourscore" class="score">0</div>';
@@ -393,7 +360,7 @@ function BJdeal() {
         Dealer['cards'] = []; // Clear the dealer's cards array
 
         // Reset the deck if you're using a finite deck
-        BJgame['cards'] = [...BJgame['originalDeck']]; // Assuming you have an original deck to copy from
+        //BJgame['cards'] = [...BJgame['originalDeck']];
 
         // Reset command/message text
         document.querySelector('#command').textContent = "Let's Play";
@@ -427,7 +394,3 @@ function BJstand() {
     }, 800);
     resetBettingUI();
 }
-
-// Initialize the deck and start the game
-initializeDeck();
-resetBettingUI();
