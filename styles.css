@@ -233,7 +233,7 @@ strong {
 #coin-animation {
     width: 16px; 
     height: 16px; 
-    background-image: url('coin1_16x16.png'); 
+    background-image: url('public/coin1_16x16.png'); 
     background-repeat: no-repeat;
     position: absolute;
     top: 95%; 
@@ -250,7 +250,7 @@ strong {
 #die-animation {
     width: 16px;
     height: 16px; 
-    background-image: url('dice.png');
+    background-image: url('public/dice.png');
     background-repeat: no-repeat;
     
     animation: spinDice 1.5s steps(10) infinite;
