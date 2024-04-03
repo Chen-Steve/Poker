@@ -13,6 +13,7 @@
 </head>
 
 <body class="terminal">
+
     <div class="floating-cards">
         <div class="card card1"></div>
         <div class="card card2"></div>
@@ -71,6 +72,30 @@
     </div>
     <script src="script.js"></script>
 
+    <div id="rules-tab" class="rules-tab">Game Rules</div>
+<div id="rules-content" class="rules-content">
+    <h2>How to Play</h2>
+    <p>Welcome to Blackjack! Here's how you can play:</p>
+    <ul>
+        <li>Start by placing your bet.</li>
+        <li>Click 'Deal' to receive your cards.</li>
+        <li>Choose 'Hit' to get another card or 'Stand' to hold your total.</li>
+        <li>The goal is to beat the dealer's hand without going over 21.</li>
+    </ul>
+    <h2>Gameplay</h2>
+        <p>After receiving your two cards:</p>
+        <ol>
+            <li><strong>Hit:</strong> If you want another card to try and get closer to 21, click 'Hit'.</li>
+            <li><strong>Stand:</strong> Satisfied with your hand? Click 'Stand' and it's the dealer's turn.</li>
+            <li><strong>Double Down:</strong> Feel confident? Double your bet for one more card.</li>
+        </ol>
+    <h2>Betting and Payouts</h2>
+        <ul>
+            <li>Wins pay 1:1; Blackjack wins pay 3:2.</li>
+            <li>If you lose, you lose your bet amount.</li>
+            <li>A draw returns your bet.</li>
+        </ul>   
+</div>
 
     <footer class="footer">
         <p>&copy; <span id="current-year"></span><a href="https://github.com/Chen-Steve" target="_blank" class="github-link">Steven Chen</a> | <a href="credits.html" id="credits-link">Credits</a></p>
@@ -79,6 +104,16 @@
     <script>
         document.getElementById('current-year').textContent = new Date().getFullYear();
     </script>    
-    
+    <script>
+        document.getElementById('rules-tab').addEventListener('click', function() {
+            var rulesContent = document.getElementById('rules-content');
+            if (rulesContent.style.display === "none" || rulesContent.style.display === "") {
+                rulesContent.style.display = "block";
+            } else {
+                rulesContent.style.display = "none";
+            }
+        });
+        </script>
+        
 </body>
 </html>
