@@ -290,10 +290,10 @@ strong {
 }
 
 .github-link {
-    color: #ffffff; /* Green color */
-    text-decoration: none; /* Optional: Removes the underline from the link */
+    color: #ffffff; 
+    text-decoration: none; 
 }
 
 .github-link:hover {
-    text-decoration: underline; /* Restores the underline on hover for visual feedback */
+    text-decoration: underline;
 }
