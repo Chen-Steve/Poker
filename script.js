@@ -28,6 +28,12 @@ const cardSymbols = {
     'spades': ['2♠', '3♠', '4♠', '5♠', '6♠', '7♠', '8♠', '9♠', '10♠', 'J♠', 'Q♠', 'K♠', 'A♠'],
 };
 
+document.addEventListener('DOMContentLoaded', () => {
+    const dieAnimationDiv = document.createElement('div');
+    dieAnimationDiv.id = 'die-animation';
+    document.body.appendChild(dieAnimationDiv);
+});
+
 function updateGameMessage(message, color = 'white') {
     const messageEl = document.getElementById('game-message');
     messageEl.textContent = message;
@@ -87,11 +93,19 @@ document.addEventListener('DOMContentLoaded', function() {
             yoyo: true,
             ease: "sine.inOut"
         });
-        Draggable.create(".card", {
+        Draggable.create(card, {
             type: "x,y", // Allow dragging on both x and y axes
             edgeResistance: 0.65, // Control the bounds resistance
             bounds: window, // Set the bounds to the window
-            throwProps: true // Allow flicking the cards
+            throwProps: true, // Allow flicking the cards
+
+            // Event handlers for dragging
+            onPress: function() {
+                this.target.style.zIndex = 1000; // Bring to front
+            },
+            onRelease: function() {
+                this.target.style.zIndex = ''; // Reset z-index
+            }
         });
     });
 });

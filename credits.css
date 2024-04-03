@@ -1,0 +1,97 @@
+:root {
+    --background-color: #2D2D2D; /* Dark background for indie vibe */
+    --primary-color: #F4D03F; /* A standout color for titles */
+    --text-color: #EAEAEA; /* Light text for contrast */
+    --link-color: #F4D03F; /* Links use the primary color */
+    --container-bg: #333333; /* Slightly lighter bg for containers */
+    --font-family: 'Open Sans', sans-serif; /* Keeping it simple with Open Sans */
+}
+
+body {
+    font-family: var(--font-family);
+    line-height: 1.6;
+    padding: 20px;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    transition: background-color 0.3s ease;
+}
+
+.container {
+    max-width: 960px;
+    margin: 40px auto;
+    overflow: hidden;
+    padding: 20px;
+    background-color: var(--container-bg);
+    border-radius: 10px; /* Rounded corners for the container */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+}
+
+h1, h2 {
+    color: var(--primary-color);
+    margin: 20px 0; /* More space around headings */
+}
+
+h1 {
+    text-align: center;
+    font-size: 2em; /* Larger font size for the main title */
+}
+
+ul {
+    list-style-type: none; /* Removing bullet points for a cleaner look */
+    padding: 0;
+}
+
+li {
+    background-color: transparent; /* Removing the background for a cleaner look */
+    margin-bottom: 10px; /* Less space between items for a compact look */
+    padding: 10px 0; /* Padding only top and bottom for a sleek look */
+    border-bottom: 1px solid #555; /* Subtle separator */
+    transition: all 0.3s ease-in-out;
+}
+
+li:hover {
+    background-color: #444; /* Slight highlight on hover */
+    cursor: pointer; /* Indicates an interactive element */
+}
+
+a {
+    color: var(--link-color);
+    text-decoration: none; /* No underline by default */
+    transition: color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+a:hover {
+    color: #ffffff; /* White color for hover */
+    text-decoration: underline; /* Underline on hover for clarity */
+}
+
+footer {
+    text-align: center;
+    margin-top: 40px;
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    border-radius: 8px 8px 0 0;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 15px;
+    }
+    h1 {
+        font-size: 24px; /* Smaller font size on smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 10px;
+    }
+    h1, h2 {
+        font-size: 20px; /* Even smaller font sizes for very small screens */
+    }
+}

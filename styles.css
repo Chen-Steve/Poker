@@ -1,20 +1,30 @@
 body {
     font-family: 'Courier New', monospace;
-    background-color: #000;
-    color: #00FF00;
+    background-color: #aa9797;
     text-align: center;
     padding: 0px;
 }
 
 .terminal {
-    background-color: #000;
-    color: #00FF00;
-    border: 2px solid #00FF00;
-    border-radius: 5px;
-    padding: 10px;
+    position: relative;
+    background-color: #90c0c9;
+    color: #ffffff;
+    border: 2px solid #000000;
+    border-radius: 10px;
+    padding: 20px;
     width: 320px;
     margin: 0 auto;
-    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+    box-shadow: 0 0 10px rgba(83, 105, 142, 0.5);
+    animation: colorShift 10s infinite alternate;
+    z-index: 10;
+}
+
+@keyframes colorShift {
+    0% { background-color: #90c0c9; }
+    25% { background-color: #7ea9b0; }
+    50% { background-color: #739aa1; }
+    75% { background-color: #63858b; }
+    100% { background-color: rgb(90, 119, 125); }
 }
 
 .terminal-header {
@@ -71,7 +81,7 @@ body {
 }
 
 .btn {
-    background-color: #00FF00;
+    background-color: #f1f1f1;
     color: #000;
     border: none;
     font-size: 0.8em;
@@ -88,7 +98,7 @@ body {
 }
 
 .btn:hover {
-    background-color: #009900;
+    background-color: #acabab;
 }
 
 .terminal-footer {
@@ -101,7 +111,7 @@ span {
 }
 
 strong {
-    color: #00FF00;
+    color: #104c10;
 }
 
 #hit-button {
@@ -109,15 +119,16 @@ strong {
 }
 
 #hit-button:enabled {
-    background-color: #4CAF50; 
+    background-color: #275829; 
     cursor: pointer;
 }
 
 .card-image {
-    width: 80px; /* Adjust as needed */
-    height: auto; /* Maintain aspect ratio */
-    margin: 5px; /* Space between cards */
+    width: 80px; 
+    height: auto; 
+    margin: 5px; 
 }
+
 #funds-container {
     color: #00FF00;
     margin: 10px 0;
@@ -133,7 +144,7 @@ strong {
     width: 60px;
     color: #000;
     background-color: #fff;
-    border: 1px solid #00FF00;
+    border: 1px solid #185918;
 }
 
 #placeBet {
@@ -151,18 +162,22 @@ strong {
     left: 0;
     width: 100vw;
     height: 100vh;
-    z-index: -1; /* Ensure it's behind the game content */
+    z-index: -1; 
     overflow: hidden;
     pointer-events: auto; 
 }
 
 .card {
     position: absolute;
-    width: 100px; /* Adjust size as needed */
-    height: 140px; /* Adjust size as needed */
+    width: 100px; 
+    height: 140px; 
     background-size: cover;
     transition: transform 0.5s ease;
+    z-index: 5;
+}
 
+.card.active {
+    z-index: 15; /* Higher z-index for active (dragged) cards */
 }
 
 .card1 {
@@ -216,22 +231,69 @@ strong {
 }
 
 #coin-animation {
-    width: 16px; /* Width of one frame */
-    height: 16px; /* Height of one frame */
-    background-image: url('coin1_16x16.png'); /* Path to your sprite sheet */
+    width: 16px; 
+    height: 16px; 
+    background-image: url('coin1_16x16.png'); 
     background-repeat: no-repeat;
-    animation: spinCoin 0.5s steps(10) infinite; /* Adjust steps(10) to match the number of frames in your sprite sheet */
+    position: absolute;
+    top: 95%; 
+    right: 5%;
+    transform: translateY(-50%);
+    animation: spinCoin 0.5s steps(10) infinite;
 }
 
 @keyframes spinCoin {
     from { background-position: 0px; }
-    to { background-position: -160px; } /* This should be width of one frame multiplied by number of frames */
+    to { background-position: -160px; }
+}
+
+#die-animation {
+    width: 16px;
+    height: 16px; 
+    background-image: url('dice.png');
+    background-repeat: no-repeat;
+    
+    animation: spinDice 1.5s steps(10) infinite;
+}
+
+@keyframes spinDice {
+    from { background-position: 0px; }
+    to { background-position: -160px; }
 }
 
 .game-message {
-    color: white;
+    color: rgb(43, 50, 109);
     text-align: center;
     margin-top: 10px;
-    /* Add any additional styling as needed */
 }
 
+
+.footer {
+    text-align: center;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    color: #000; 
+    padding: 10px 0; 
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+}
+
+#credits-link {
+    color: #000;
+    text-decoration: none;
+    font-weight: bold; 
+}
+
+#credits-link:hover {
+    text-decoration: underline; 
+}
+
+.github-link {
+    color: #ffffff; /* Green color */
+    text-decoration: none; /* Optional: Removes the underline from the link */
+}
+
+.github-link:hover {
+    text-decoration: underline; /* Restores the underline on hover for visual feedback */
+}
