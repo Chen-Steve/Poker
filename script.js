@@ -28,6 +28,28 @@ const cardSymbols = {
     'spades': ['2♠', '3♠', '4♠', '5♠', '6♠', '7♠', '8♠', '9♠', '10♠', 'J♠', 'Q♠', 'K♠', 'A♠'],
 };
 
+function updateGameMessage(message, color = 'white') {
+    const messageEl = document.getElementById('game-message');
+    messageEl.textContent = message;
+    messageEl.style.color = color;
+}
+
+function createCoinAnimation() {
+    const coinAnimation = document.getElementById('coin-animation') || document.createElement('div');
+    coinAnimation.id = 'coin-animation';
+    coinAnimation.style.display = 'none'; // Hide it by default
+    document.body.appendChild(coinAnimation);
+    
+    // Add the coin's animation CSS properties
+    coinAnimation.style.width = '16px';
+    coinAnimation.style.height = '16px';
+    coinAnimation.style.backgroundImage = 'url("coin1_16x16.png")'; // Use the actual path to the sprite image
+    coinAnimation.style.backgroundRepeat = 'no-repeat';
+    coinAnimation.style.animation = 'spinCoin 0.5s steps(10) infinite';
+}
+
+document.addEventListener('DOMContentLoaded', createCoinAnimation);
+
 const winSound = new Audio('sound_effects/cha-ching.mp3'); 
 const cheers = new Audio('sound_effects/cheer.mp3');
 const loseSound = new Audio('sound_effects/aww.mp3');
@@ -140,8 +162,17 @@ function showCard(activePlayer, cardCode) {
 
 function drawCard(activePlayer, isFaceDown = false) {
     console.log(`Drawing card for ${activePlayer === You ? "player" : "dealer"}. Cards before draw:`, activePlayer['cards']);
+    if (BJgame['cards'].length === 0) {
+        console.error("Deck is empty. Cannot draw a card.");
+        return; // Exit the function if the deck is empty
+    }
     const randomNumber = Math.floor(Math.random() * BJgame['cards'].length);
     const currentCard = BJgame['cards'].splice(randomNumber, 1)[0];
+
+    if (!currentCard) {
+        console.error("Failed to draw a card. CurrentCard is undefined.");
+        return; // Exit the function if no card was drawn
+    }
 
     if (!isFaceDown) {
         activePlayer['cards'].push(currentCard); // Add the drawn card to the player's cards array
@@ -191,7 +222,7 @@ document.getElementById('placeBet').addEventListener('click', function() {
         document.getElementById('hit').disabled = false;
         document.getElementById('stand').disabled = false;
     } else {
-        alert("Invalid bet amount!");
+        updateGameMessage("Invalid bet amount!", 'red');
     }
 });
 
@@ -199,7 +230,7 @@ function placeBet(betAmount) {
     console.log(`Placing bet: ${betAmount}. Player funds before bet: ${BJgame.playerFunds}`);
     
     if (betAmount > BJgame.playerFunds) {
-        alert("You cannot bet more than your current funds.");
+        updateGameMessage("You cannot bet more than your current funds.", 'red');
         return;
     }
     BJgame.currentBet = betAmount;
@@ -252,7 +283,7 @@ function doubleDown() {
         console.log("Double down executed. New bet:", BJgame.currentBet);
     } else {
         console.log("Double down conditions not met.");
-        alert("Double down is not allowed at this time.");
+        updateGameMessage("Double down is not allowed at this time.", 'red');
     }
 }
 
@@ -297,20 +328,25 @@ function findwinner() {
 
 function showresults(winner){
     if(winner == You){
-        document.querySelector('#command').textContent = 'You Won!';
-        document.querySelector('#command').style.color = 'green';
+        updateGameMessage('You Won!', 'green');
         winSound.play();
         cheers.play();
         cheers.volume = 0.4;
+
+        // If the player has won 5 games, display the coin animation
+        if (BJgame['wins'] % 1 === 0) {
+            const coinAnimation = document.getElementById('coin-animation');
+            if (coinAnimation) {
+                coinAnimation.style.display = 'block'; // Make the coin animation visible
+            }
+        }
     }
     else if(winner == Dealer){
-        document.querySelector('#command').textContent = "You Lost!";
-        document.querySelector('#command').style.color = 'red';
+        updateGameMessage("You Lost!", 'red');
         loseSound.play();
     }
     else{
-        document.querySelector('#command').textContent = 'You Drew!';
-        document.querySelector('#command').style.color = 'orange';
+        updateGameMessage('You Drew!', 'orange');
         drawSound.play();
     }
 
@@ -369,7 +405,7 @@ function BJdeal() {
         // Reset betting UI for the next game
     } else {
         // Player hasn't busted and dealer hasn't played yet
-        alert('Please Press Stand Key Before Deal...');
+        updateGameMessage('Please Press Stand Key Before Deal...', 'red');
     }
 }
 
@@ -378,7 +414,7 @@ document.querySelector('#stand').addEventListener('click', BJstand);
 
 function BJstand() {
     if (You['cards'].length < 2) {
-        alert("You need to have at least two cards to stand.");
+        updateGameMessage("You need to have at least two cards to stand.", 'red');
         return; // Exit the function if the player has less than two cards
     }
 

@@ -214,3 +214,24 @@ strong {
     left: 80%;
     top: 10%;
 }
+
+#coin-animation {
+    width: 16px; /* Width of one frame */
+    height: 16px; /* Height of one frame */
+    background-image: url('coin1_16x16.png'); /* Path to your sprite sheet */
+    background-repeat: no-repeat;
+    animation: spinCoin 0.5s steps(10) infinite; /* Adjust steps(10) to match the number of frames in your sprite sheet */
+}
+
+@keyframes spinCoin {
+    from { background-position: 0px; }
+    to { background-position: -160px; } /* This should be width of one frame multiplied by number of frames */
+}
+
+.game-message {
+    color: white;
+    text-align: center;
+    margin-top: 10px;
+    /* Add any additional styling as needed */
+}
+
