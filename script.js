@@ -28,17 +28,17 @@ const cardSymbols = {
     'spades': ['2♠', '3♠', '4♠', '5♠', '6♠', '7♠', '8♠', '9♠', '10♠', 'J♠', 'Q♠', 'K♠', 'A♠'],
 };
 
-document.addEventListener('DOMContentLoaded', () => {
-    const dieAnimationDiv = document.createElement('div');
-    dieAnimationDiv.id = 'die-animation';
-    document.body.appendChild(dieAnimationDiv);
-});
-
 function updateGameMessage(message, color = 'white') {
     const messageEl = document.getElementById('game-message');
     messageEl.textContent = message;
     messageEl.style.color = color;
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const dieAnimationDiv = document.createElement('div');
+    dieAnimationDiv.id = 'die-animation';
+    document.body.appendChild(dieAnimationDiv);
+});
 
 function createCoinAnimation() {
     const coinAnimation = document.getElementById('coin-animation') || document.createElement('div');
