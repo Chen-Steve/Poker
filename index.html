@@ -4,11 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blackjack Game</title>
+    <meta name="description" content="Simple blackjack game, win cool baubles!">
+    <link rel="canonical" href="https://blackjack-steven-chens-projects.vercel.app/">
+
     <link rel="shortcut icon" href="images/dice.ico" type="image/x-icon" />
     <link rel="stylesheet" href="css/styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/Draggable.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1.28.5/dist/supabase.min.js"></script>
+
+    <!-- Security -->
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'sha256-EB5MH5FTf+lqf2We7CntutMtZSHb3+Tqfadmq6m3IQw=' 'sha256-cRaaWdLhqMbLXUNZYlRxx3C+9QUeEh17Kwvc6KsuykA=' 'sha256-vvt4KWwuNr51XfE5m+hzeNEGhiOfZzG97ccfqGsPwvE=';">
+    
+    <!-- SEO -->
+    <meta property="og:title" content="Solo Blackjack Game">
+    <meta property="og:description" content="Simple blackjack game, win cool baubles!">
+    <meta property="og:url" content="https://blackjack-steven-chens-projects.vercel.app/">
+    <meta property="og:type" content="website">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="images/dice.ico">
 
 </head>
 
@@ -115,10 +129,10 @@
     <footer class="footer">
         <p>&copy; <span id="current-year"></span><a href="https://github.com/Chen-Steve" target="_blank" class="github-link">Steven Chen</a> | <a href="credits.html" id="credits-link">Credits</a></p>
     </footer>
-    
+
     <script>
         document.getElementById('current-year').textContent = new Date().getFullYear();
-    </script>    
+</script>
     <script>
         document.getElementById('rules-tab').addEventListener('click', function() {
             var rulesContent = document.getElementById('rules-content');
@@ -129,6 +143,6 @@
             }
         });
         </script>
-        
+
 </body>
 </html>
