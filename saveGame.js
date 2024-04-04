@@ -42,11 +42,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const saveButton = document.getElementById('save-score-btn');
     if (saveButton) {
-        saveButton.addEventListener('click', saveGameState);
+        saveButton.addEventListener('click', () => {
+            saveGameState();
+            showSaveMessage();
+        });
     } else {
         console.error('Save button not found.');
     }
 });
+
+function showSaveMessage() {
+    // Create the message element
+    const message = document.createElement('div');
+    message.textContent = 'Saved!';
+    message.style.position = 'fixed';
+    message.style.bottom = '20px';
+    message.style.right = '20px';
+    message.style.backgroundColor = 'rgba(0, 128, 0, 0.7)';
+    message.style.color = 'white';
+    message.style.padding = '10px';
+    message.style.borderRadius = '5px';
+    message.style.zIndex = '1000';
+    document.body.appendChild(message);
+
+    // Remove the message after 2 seconds
+    setTimeout(() => {
+        document.body.removeChild(message);
+    }, 2000);
+}
 
 function resetGameState() {
     try {
