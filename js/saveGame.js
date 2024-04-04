@@ -80,13 +80,16 @@ function resetGameState() {
     }
 }
 
+window.addEventListener('DOMContentLoaded', (event) => {
+    document.getElementById('toggleMusicBtn').addEventListener('click', toggleMusic);
+});
+
 function toggleMusic() {
     var music = document.getElementById('bgMusic');
-
-    // Check if the music is paused or currently not playing
-    if (music.paused || music.currentTime === 0) {
+    if (music.paused) {
         music.play();
     } else {
         music.pause();
     }
 }
+
