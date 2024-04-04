@@ -79,3 +79,14 @@ function resetGameState() {
         console.error('Failed to reset game state:', e);
     }
 }
+
+function toggleMusic() {
+    var music = document.getElementById('bgMusic');
+
+    // Check if the music is paused or currently not playing
+    if (music.paused || music.currentTime === 0) {
+        music.play();
+    } else {
+        music.pause();
+    }
+}

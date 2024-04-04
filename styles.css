@@ -27,6 +27,27 @@ body {
     100% { background-color: rgb(90, 119, 125); }
 }
 
+#toggleMusicBtn {
+    cursor: pointer;
+    padding: 10px;
+    background-color: #009578;
+    color: #ffffff;
+    position: fixed;
+    left: 2%;
+    bottom: 2%;
+    z-index: 100;
+}
+
+
+#toggleMusicBtn:hover, #toggleMusicBtn:focus {
+    background-color: #007760; 
+    transform: scale(1.05);
+}
+
+#toggleMusicBtn:active {
+    transform: scale(0.95);
+}
+
 .rules-tab {
     cursor: pointer;
     padding: 10px;
@@ -34,8 +55,7 @@ body {
     color: #ffffff;
     position: fixed;
     left: 2%;
-    top: 5%;
-    transform: translateY(-50%);
+    top: 2%;
     z-index: 100;
 }
 
