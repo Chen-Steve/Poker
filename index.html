@@ -76,29 +76,35 @@
     <script src="script.js"></script>
 
     <div id="rules-tab" class="rules-tab">Game Rules</div>
-<div id="rules-content" class="rules-content">
-    <h2>How to Play</h2>
-    <p>Welcome to Blackjack! Here's how you can play:</p>
-    <ul>
-        <li>Start by placing your bet.</li>
-        <li>Click 'Deal' to receive your cards.</li>
-        <li>Choose 'Hit' to get another card or 'Stand' to hold your total.</li>
-        <li>The goal is to beat the dealer's hand without going over 21.</li>
-    </ul>
-    <h2>Gameplay</h2>
-        <p>After receiving your two cards:</p>
-        <ol>
-            <li><strong>Hit:</strong> If you want another card to try and get closer to 21, click 'Hit'.</li>
-            <li><strong>Stand:</strong> Satisfied with your hand? Click 'Stand' and it's the dealer's turn.</li>
-            <li><strong>Double Down:</strong> Feel confident? Double your bet for one more card.</li>
-        </ol>
-    <h2>Betting and Payouts</h2>
+    <div id="rules-content" class="rules-content">
+        <h2>How to Play</h2>
         <ul>
-            <li>Wins pay 1:1; Blackjack wins pay 3:2.</li>
-            <li>If you lose, you lose your bet amount.</li>
-            <li>A draw returns your bet.</li>
-        </ul>   
-</div>
+            <li>Start by placing your bet. Two cards will be dealt to you automatically.</li>
+            <li>You can choose 'Hit' to get another card or 'Stand' to hold your total and end your turn.</li>
+            <li>The goal is to beat the dealer's hand without going over 21.</li>
+            <li>The dealer will hit until their cards total 16 or higher.</li>
+        </ul>
+        <h2>Gameplay</h2>
+        <ol>
+            <li><strong>Place Bet:</strong> Enter your bet amount and confirm to start the game. Two cards will be dealt to you immediately.</li>
+            <li><strong>Hit:</strong> If you want another card to try and get closer to 21, click 'Hit'. You can hit multiple times as long as your total is below 21.</li>
+            <li><strong>Stand:</strong> Satisfied with your hand? Click 'Stand' and the dealer will play their hand.</li>
+            <li><strong>Double Down:</strong> After receiving your initial two cards, you have the option to double your bet and receive exactly one additional card.</li>
+        </ol>
+        <h2>Betting and Payouts</h2>
+        <ul>
+            <li>Wins pay 1:1; meaning you win the same amount as your bet.</li>
+            <li>Blackjack (an ace and a ten-value card as your first two cards) pays 3:2.</li>
+            <li>If you lose, you forfeit your bet amount.</li>
+            <li>A draw (or "push") returns your initial bet.</li>
+        </ul>
+        <h2>Special Rules</h2>
+        <ul>
+            <li><strong>Double Down:</strong> You can double your bet after receiving your initial two cards, but you will be dealt only one more card.</li>
+            <li>Double Down is only available as your first decision of a hand.</li>
+        </ul>
+    </div>
+    
 
     <footer class="footer">
         <p>&copy; <span id="current-year"></span><a href="https://github.com/Chen-Steve" target="_blank" class="github-link">Steven Chen</a> | <a href="credits.html" id="credits-link">Credits</a></p>
