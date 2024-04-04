@@ -20,6 +20,12 @@
             <li>Dice Animation Image: <a href="https://doughnutdev.itch.io/" target="_blank" rel="noopener">DoughnutDev</a></li>
         </ul>
 
+        <h2>Songs & Music</h2>
+        <ul>
+            <li>Sunshine of Rio - O sol de Rio: <a href="http://lewisluong.com/" target="_blank" rel="noopener">David Luong</a></li>
+            <li>Sound effects: <a href="https://pixabay.com/" target="_blank" rel="noopener">pixabay</a></li>
+        </ul>
+
         <h2>Inspirations</h2>
         <ul>
             <li>Game Mechanics Inspiration: <a href="URL_TO_INSPIRATION" target="_blank" rel="noopener">. . .</a></li>
@@ -37,7 +43,10 @@
         <p>&copy; <span id="year"></span> Steven Chen</p>
     </footer>
     <script>
-        document.getElementById('year').textContent = new Date().getFullYear();
+        window.addEventListener('DOMContentLoaded', (event) => {
+            document.getElementById('year').textContent = new Date().getFullYear();
+        });
     </script>
+    
 </body>
 </html>
