@@ -233,12 +233,18 @@ document.getElementById('placeBet').addEventListener('click', function() {
     let betAmount = parseInt(document.getElementById('betAmount').value);
     if (betAmount > 0 && betAmount <= BJgame.playerFunds) {
         placeBet(betAmount); // Pass the bet amount to the function
-        document.getElementById('hit').disabled = false;
-        document.getElementById('stand').disabled = false;
     } else {
         updateGameMessage("Invalid bet amount!", 'red');
     }
 });
+
+function dealInitialCards() {
+    // Draw two cards for the player
+    drawCard(You);
+    drawCard(You);
+    // Adjust the UI as needed (e.g., disable the "Double Down" button if the player's initial two cards don't meet the criteria)
+    checkDoubleDownEligibility();
+}
 
 function placeBet(betAmount) {
     console.log(`Placing bet: ${betAmount}. Player funds before bet: ${BJgame.playerFunds}`);
@@ -255,8 +261,7 @@ function placeBet(betAmount) {
     document.getElementById('hit').disabled = false;
     document.getElementById('stand').disabled = false;
 
-    // After placing a bet, it's a good idea to check if double down is allowed
-    checkDoubleDownEligibility();
+    dealInitialCards(); // Deal two cards to the player after placing a bet
 }
 
 function payoutWin() {
@@ -397,8 +402,6 @@ function resetBettingUI() {
     document.getElementById('stand').disabled = true;
 }
 
-document.querySelector('#deal').addEventListener('click', BJdeal);
-
 function BJdeal() {
     if (You['score'] > 21 || Dealer['score'] > 0) {
         // Clear the cards and reset scores
@@ -408,14 +411,9 @@ function BJdeal() {
         Dealer['score'] = 0;
         You['cards'] = []; // Clear the player's cards array
         Dealer['cards'] = []; // Clear the dealer's cards array
-
-        // Reset the deck if you're using a finite deck
-        //BJgame['cards'] = [...BJgame['originalDeck']];
-
         // Reset command/message text
         document.querySelector('#command').textContent = "Let's Play";
         document.querySelector('#command').style.color = 'black';
-
         // Reset betting UI for the next game
     } else {
         // Player hasn't busted and dealer hasn't played yet
@@ -423,8 +421,8 @@ function BJdeal() {
     }
 }
 
-// Dealer's Logic (2nd player) OR Stand button
-document.querySelector('#stand').addEventListener('click', BJstand);
+
+document.querySelector('#deal').addEventListener('click', BJdeal);
 
 function BJstand() {
     if (You['cards'].length < 2) {
@@ -444,5 +442,7 @@ function BJstand() {
     }, 800);
     resetBettingUI();
 }
+
+document.querySelector('#stand').addEventListener('click', BJstand);
 
 saveScore(BJgame.playerFunds);
