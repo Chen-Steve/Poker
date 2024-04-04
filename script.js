@@ -28,17 +28,17 @@ const cardSymbols = {
     'spades': ['2♠', '3♠', '4♠', '5♠', '6♠', '7♠', '8♠', '9♠', '10♠', 'J♠', 'Q♠', 'K♠', 'A♠'],
 };
 
-function updateGameMessage(message, color = 'white') {
-    const messageEl = document.getElementById('game-message');
-    messageEl.textContent = message;
-    messageEl.style.color = color;
-}
-
 document.addEventListener('DOMContentLoaded', () => {
     const dieAnimationDiv = document.createElement('div');
     dieAnimationDiv.id = 'die-animation';
     document.body.appendChild(dieAnimationDiv);
 });
+
+function updateGameMessage(message, color = 'white') {
+    const messageEl = document.getElementById('game-message');
+    messageEl.textContent = message;
+    messageEl.style.color = color;
+}
 
 function createCoinAnimation() {
     const coinAnimation = document.getElementById('coin-animation') || document.createElement('div');
@@ -348,7 +348,7 @@ function showresults(winner){
         cheers.volume = 0.4;
 
         // If the player has won 5 games, display the coin animation
-        if (BJgame['wins'] % 1 === 0) {
+        if (BJgame['wins'] % 5 === 0) {
             const coinAnimation = document.getElementById('coin-animation');
             if (coinAnimation) {
                 coinAnimation.style.display = 'block'; // Make the coin animation visible
@@ -444,3 +444,5 @@ function BJstand() {
     }, 800);
     resetBettingUI();
 }
+
+saveScore(BJgame.playerFunds);
