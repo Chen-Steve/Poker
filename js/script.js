@@ -217,8 +217,6 @@ function checkDoubleDownEligibility() {
 
 checkDoubleDownEligibility();
 
-document.getElementById('doubleDown').addEventListener('click', doubleDown);
-
 function doubleDown() {
     console.log("Double down clicked. Checking conditions...");
     if (You['cards'].length === 2 && BJgame.currentBet > 0 && BJgame.playerFunds >= BJgame.currentBet) {
@@ -235,6 +233,8 @@ function doubleDown() {
         updateGameMessage("Double down is not allowed at this time.", 'red');
     }
 }
+
+document.getElementById('doubleDown').addEventListener('click', doubleDown);
 
 function updateScore(currentCard, activePlayer) {
     const rank = currentCard.slice(0, -1); // Extract the rank from the card symbol
@@ -350,7 +350,6 @@ function BJdeal() {
         updateGameMessage('Please Press Stand Key Before Deal...', 'red');
     }
 }
-
 
 document.querySelector('#deal').addEventListener('click', BJdeal);
 

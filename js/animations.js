@@ -13,7 +13,7 @@ function createCoinAnimation() {
     // Add the coin's animation CSS properties
     coinAnimation.style.width = '16px';
     coinAnimation.style.height = '16px';
-    coinAnimation.style.backgroundImage = 'url("coin1_16x16.png")'; 
+    coinAnimation.style.backgroundImage = 'url("../images/coin.png")'; 
     coinAnimation.style.backgroundRepeat = 'no-repeat';
     coinAnimation.style.animation = 'spinCoin 0.5s steps(10) infinite';
 }
