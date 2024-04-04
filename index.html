@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blackjack Game</title>
     <link rel="shortcut icon" href="images/dice.ico" type="image/x-icon" />
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/Draggable.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1.28.5/dist/supabase.min.js"></script>
@@ -14,7 +14,7 @@
 
 <body class="terminal">
     <audio id="bgMusic" loop>
-        <source src="david-luong_sunshine-of-rio-o-sol-de-rio.mp3" type="audio/mp3">
+        <source src="sound_effects/david-luong_sunshine-of-rio-o-sol-de-rio.mp3" type="audio/mp3">
         Your browser does not support the audio element.
     </audio>
     <button id="toggleMusicBtn" onclick="toggleMusic()">Toggle Music</button>
@@ -77,8 +77,9 @@
         <button id="save-score-btn" class="btn">Save Score</button>
 
     </div>
-    <script src="saveGame.js"></script>
-    <script src="script.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/saveGame.js"></script>
+    <script src="js/script.js"></script>
 
     <div id="rules-tab" class="rules-tab">Game Rules</div>
     <div id="rules-content" class="rules-content">
