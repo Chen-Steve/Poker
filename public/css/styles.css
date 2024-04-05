@@ -20,7 +20,7 @@ form#signInForm {
     animation: colorShift 10s infinite alternate;
 }
 
-input[type="email"], input[type="password"] {
+input[type="text"], input[type="password"] {
     width: calc(100% - 20px);
     padding: 10px;
     margin-bottom: 15px;
