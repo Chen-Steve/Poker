@@ -1,5 +1,8 @@
 {
+  "type": "module",
   "dependencies": {
+    "@prisma/client": "^5.12.1",
+    "@supabase/auth-js": "^2.63.0",
     "@supabase/supabase-js": "^2.42.0",
     "dotenv": "^16.4.5"
   }
